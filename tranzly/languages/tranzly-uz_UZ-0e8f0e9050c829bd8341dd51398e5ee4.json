@@ -1,0 +1,54 @@
+{
+    "translation-revision-date": "2026-10-02T17:52:12+00:00",
+    "generator": "WP-CLI\/2.12.0",
+    "source": "build\/settings__premium_only.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "uz_UZ",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Engine for %s": [
+                "%s uchun mexanizm"
+            ],
+            "The default engine": [
+                "Birlamchi vosita"
+            ],
+            "If an engine fails or reaches a limit, try these next, in this order": [
+                "Agar tizim ishlamay qolsa yoki cheklovga yetsa, keyin bularni ushbu tartibda sinab ko\u02bbring"
+            ],
+            "Monthly spending caps": [
+                "Oylik xarajat cheklovlari"
+            ],
+            "When an engine reaches its cap, nothing more is sent to it until next month and the failed-translation report says why. Leave empty for no cap.": [
+                "Dvigatel o\u02bbz limitiga yetganda, keyingi oygacha unga boshqa hech narsa yuborilmaydi va muvaffaqiyatsiz tarjimalar hisoboti buning sababini ko\u02bbrsatadi. Cheklov qo\u02bbymaslik uchun bo\u02bbsh qoldiring."
+            ],
+            "%1$s (spent this month: $%2$s)": [
+                "%1$s (bu oyda sarflangan: $%2$s)"
+            ],
+            "Save caps": [
+                "Imkoniyatlarni saqlash"
+            ],
+            "Preferred translations (one per line: term = translation)": [
+                "Afzal ko\u02bbrilgan tarjimalar (har bir qatorda bittadan: atama = tarjima)"
+            ],
+            "Formality": [
+                "Rasmiylik darajasi"
+            ],
+            "Default": [
+                "Standart"
+            ],
+            "Formal": [
+                "Rasmiy"
+            ],
+            "Informal": [
+                "Norasmiy"
+            ],
+            "Style instructions (audience, brand voice)": [
+                "Uslub ko\u02bbrsatmalari (auditoriya, brend ovozi)"
+            ]
+        }
+    }
+}
