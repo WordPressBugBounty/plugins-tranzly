@@ -197,12 +197,16 @@
             "pattern": "^\\d+$"
           },
           "segments": {
-            "type": "object"
+            "type": "object",
+            "default": {}
+          },
+          "texts": {
+            "type": "object",
+            "default": {}
           }
         },
         "required": [
-          "id",
-          "segments"
+          "id"
         ]
       },
       "output_schema": {},

@@ -1,5 +1,5 @@
 {
-    "translation-revision-date": "2026-10-07T12:16:33+00:00",
+    "translation-revision-date": "2026-10-08T14:21:41+00:00",
     "generator": "WP-CLI\/2.12.0",
     "source": "build\/settings.js",
     "domain": "messages",
@@ -600,6 +600,9 @@
             ],
             "Finish": [
                 "\u0625\u0646\u0647\u0627\u0621"
+            ],
+            "Skip this step": [
+                "\u062a\u062e\u0637\u064a \u0647\u0630\u0647 \u0627\u0644\u062e\u0637\u0648\u0629"
             ],
             "Skip setup": [
                 "\u062a\u062e\u0637\u064a \u0627\u0644\u0625\u0639\u062f\u0627\u062f"

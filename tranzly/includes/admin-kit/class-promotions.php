@@ -144,14 +144,17 @@ final class Promotions {
 	 * (products.json `bundle.saving_percent`, held equal to wp/freemius-plans.json by
 	 * wp/tests/unit/AdminKitBundleOfferTest.php) and the bundle section of the host's own pricing page.
 	 *
-	 * @return array{percent: int, url: string}|null Null when no bundle is configured.
+	 * @return array{percent: int, url: string}|null Null when no bundle is configured, or the host is
+	 *                                               not in it.
 	 */
 	public static function bundle_offer(): ?array {
 		$bundle  = (array) ( Data::get( 'products' )['bundle'] ?? array() );
 		$percent = (int) ( $bundle['saving_percent'] ?? 0 );
-		$site    = (string) ( Data::product( (string) Kit::host( 'slug' ) )['site'] ?? '' );
+		$product = Data::product( (string) Kit::host( 'slug' ) );
+		$site    = (string) ( $product['site'] ?? '' );
 		$url     = self::safe_url( '' === $site ? '' : rtrim( $site, '/' ) . '/' . ltrim( (string) ( $bundle['pricing_path'] ?? '' ), '/' ) );
-		if ( '' === (string) preg_replace( '/\D/', '', (string) ( $bundle['id'] ?? '' ) ) || $percent <= 0 || '' === $url ) {
+		// A host the bundle does not include (`in_bundle: false`) never offers it.
+		if ( false === ( $product['in_bundle'] ?? true ) || '' === (string) preg_replace( '/\D/', '', (string) ( $bundle['id'] ?? '' ) ) || $percent <= 0 || '' === $url ) {
 			return null;
 		}
 		return array(

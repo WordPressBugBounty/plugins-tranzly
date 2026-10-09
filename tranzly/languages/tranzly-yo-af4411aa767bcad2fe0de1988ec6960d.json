@@ -1,5 +1,5 @@
 {
-    "translation-revision-date": "2026-10-07T12:16:33+00:00",
+    "translation-revision-date": "2026-10-08T14:21:41+00:00",
     "generator": "WP-CLI\/2.12.0",
     "source": "build\/settings.js",
     "domain": "messages",
@@ -585,6 +585,9 @@
             ],
             "Finish": [
                 "Pari"
+            ],
+            "Skip this step": [
+                "F\u00f2 igbese yii"
             ],
             "Skip setup": [
                 "F\u00f2 \u00ec\u1e63\u00e8t\u00f2"
