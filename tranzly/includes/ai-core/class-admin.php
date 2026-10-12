@@ -86,6 +86,8 @@ final class Admin {
 				return __( 'One key for models from many different providers.', 'tranzly' );
 			case Registry::CUSTOM:
 				return __( 'Any service that works like OpenAI\'s API, including a model running on your own computer or server.', 'tranzly' );
+			case Zinn::ID:
+				return __( 'No key needed: pay as you go from your Zinn® account\'s credit. We pick a good, inexpensive model for each job.', 'tranzly' );
 		}
 
 		return '';
@@ -179,6 +181,12 @@ final class Admin {
 				(string) ( $spec['label'] ?? $provider )
 			)
 		) . '</h2>';
+		if ( Zinn::ID === $provider ) {
+			self::zinn_status();
+			echo '<p><a href="' . esc_url( Core::settings_url() ) . '">' . esc_html__( '← Choose a different provider', 'tranzly' ) . '</a></p>';
+			echo '</div>';
+			return;
+		}
 		if ( Registry::CUSTOM === $provider ) {
 			echo '<p>' . esc_html__( 'Enter the address of your OpenAI-compatible service, ending in /v1. A key is only needed if the service asks for one.', 'tranzly' ) . '</p>';
 		} else {
@@ -246,6 +254,12 @@ final class Admin {
 		echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Provider', 'tranzly' ) . '</th><th>' . esc_html__( 'Status', 'tranzly' ) . '</th><th>' . esc_html__( 'Key', 'tranzly' ) . '</th></tr></thead><tbody>';
 		foreach ( Registry::all() as $id => $spec ) {
 			$saved = Store::provider( $id );
+			if ( Zinn::ID === $id ) {
+				echo '<tr><td><strong>' . esc_html( (string) ( $spec['label'] ?? $id ) ) . '</strong><br><span class="description">' . esc_html( self::describe( $id ) ) . '</span></td><td colspan="2">';
+				self::zinn_status();
+				echo '</td></tr>';
+				continue;
+			}
 			echo '<tr><td><strong>' . esc_html( (string) ( $spec['label'] ?? $id ) ) . '</strong><br><span class="description">' . esc_html( self::describe( $id ) ) . '</span>';
 			if ( '' !== (string) ( $spec['key_url'] ?? '' ) ) {
 				echo '<br><a href="' . esc_url( (string) $spec['key_url'] ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Get a key', 'tranzly' ) . '</a>';
@@ -261,6 +275,43 @@ final class Admin {
 			echo '</td></tr>';
 		}
 		echo '</tbody></table>';
+	}
+
+	/**
+	 * Zinn® credits' state and the one action that changes it (connect, or add credit). There is no
+	 * key to save: the plugin that offers the credits holds the connection.
+	 *
+	 * @return void
+	 */
+	private static function zinn_status(): void {
+		$state = Zinn::state();
+		if ( ! $state['connected'] ) {
+			echo '<p>' . esc_html__( 'Not connected. Connect this site to a Zinn® account (free) and pay only for what you use.', 'tranzly' ) . '</p>';
+			if ( '' !== $state['connect_url'] ) {
+				echo '<p><a class="button button-primary" href="' . esc_url( $state['connect_url'] ) . '">' . esc_html__( 'Connect to Zinn®', 'tranzly' ) . '</a></p>';
+			}
+			return;
+		}
+		if ( ! $state['can_spend'] ) {
+			echo '<p>' . esc_html__( 'Connected for viewing only: this site cannot spend credit. The account\'s owner can allow it.', 'tranzly' ) . '</p>';
+			return;
+		}
+		$line = sprintf(
+			/* translators: %s: the name of a Zinn account. */
+			__( 'Connected to %s.', 'tranzly' ),
+			'' !== $state['account'] ? $state['account'] : __( 'your Zinn® account', 'tranzly' )
+		);
+		if ( null !== $state['balance_micros'] ) {
+			$line .= ' ' . sprintf(
+				/* translators: %s: an amount of money in US dollars, e.g. "$4.20". */
+				__( 'Credit: %s.', 'tranzly' ),
+				'$' . number_format_i18n( max( 0, $state['balance_micros'] ) / 1000000, 2 )
+			);
+		}
+		echo '<p>' . esc_html( $line ) . '</p>';
+		if ( '' !== $state['buy_url'] ) {
+			echo '<p><a class="button" href="' . esc_url( $state['buy_url'] ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Add credit', 'tranzly' ) . '</a></p>';
+		}
 	}
 
 	/**
@@ -646,7 +697,8 @@ final class Admin {
 	public static function handle_save_key(): void {
 		self::guard( 'save_key' );
 		$provider = self::posted_provider();
-		if ( '' === $provider ) {
+		if ( '' === $provider || Zinn::ID === $provider ) {
+			// Zinn® credits have no key to save: the connection is the plugin's that offers them.
 			self::done( false, __( 'Unknown provider.', 'tranzly' ) );
 		}
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- guard() verified the nonce.
