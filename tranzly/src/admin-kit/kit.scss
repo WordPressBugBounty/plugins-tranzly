@@ -530,3 +530,12 @@
 		padding: 10px;
 	}
 }
+
+// A white-labelled shell: the agency's logo beside its name (sized to the heading).
+.zak-header__logo {
+	display: block;
+	max-block-size: 32px;
+	max-inline-size: 160px;
+	inline-size: auto;
+	object-fit: contain;
+}

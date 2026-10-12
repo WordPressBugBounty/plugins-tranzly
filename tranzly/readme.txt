@@ -7,7 +7,7 @@ Tags: translation, multilingual, language switcher, languages
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 3.27.0
+Stable tag: 3.27.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,12 @@ Yes. Tranzly adds the multilingual parts (hreflang, language and direction, per-
 Yes. Tranzly adds WordPress abilities and its own MCP server at `/wp-json/tranzly/v1/mcp` (WordPress 6.9 or later): languages, engines, translating posts, categories, media, menus and site texts, jobs, status, review, SEO addresses and more — everything the Tranzly screens do, with the same permission checks. In Pro, AI agents can also translate the whole site in the background, run the AI quality check, manage the glossary and export files for human translators. Create an application password under Users, Profile, then follow Tranzly, AI agents (MCP). The same actions are available over the REST API at `/wp-json/wp-abilities/v1/abilities`.
 
 == Changelog ==
+
+= 3.27.2 =
+* Cross-promotion cards: Zinn® SEO now shows on Tranzly's and Page Builder Sandwich's Overview and Add-ons screens, says what the two plugins do together once both are active, and links its own site while it is not in the WordPress.org directory.
+
+= 3.27.1 =
+* Admin screens: ready for agency branding in the Zinn® family.
 
 = 3.27.0 =
 * Pay for AI with Zinn® credits when Zinn® SEO is on the same site — no AI key of your own needed — and faster batched AI requests.

@@ -26,6 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * ⭐ The copy is chosen by `kind`, so a new product is a JSON row: `kind: plugin` with its
  * main files renders "<Name>, from Zinn Digital®" plus its install state, with no new string.
+ * A product with copy of its own (Tranzly, Page Builder Sandwich, Zinn® SEO) has its own tagline,
+ * pitch and "integration active" text below.
  */
 final class Promotions {
 
@@ -128,13 +130,21 @@ final class Promotions {
 		}
 		$card['url']     = self::safe_url( (string) ( $product['site'] ?? '' ) );
 		$card['product'] = $slug;
+		// A plugin that is not in the WordPress.org directory yet (`on_wordpress_org: false`) cannot
+		// be found by the Add Plugins search, so it gets no Install button: its card links its own
+		// site, which says how to get it.
+		$listed = false !== ( $product['on_wordpress_org'] ?? true );
 		if ( 'installed' === $card['state'] ) {
 			$card['actionUrl'] = admin_url( 'plugins.php' );
-		} elseif ( 'available' === $card['state'] ) {
+		} elseif ( 'available' === $card['state'] && $listed ) {
 			$card['actionUrl'] = admin_url( 'plugin-install.php?s=' . rawurlencode( (string) ( $product['install_search'] ?? $product['name'] ) ) . '&tab=search&type=term' );
 		}
 
 		$copy = self::copy( 'plugin', (string) $product['name'], $slug );
+		if ( null !== $copy && ! $listed ) {
+			/* translators: %s: a plugin's name. */
+			$copy['cta'] = sprintf( __( 'See %s', 'tranzly' ), (string) $product['name'] );
+		}
 
 		return null === $copy || '' === $card['url'] ? null : array_merge( $card, $copy );
 	}
@@ -223,8 +233,7 @@ final class Promotions {
 					'cta'         => sprintf( __( 'Get %s', 'tranzly' ), $brand ),
 					/* translators: 1: this plugin's name, 2: the other plugin's name. */
 					'activeTitle' => sprintf( __( 'Integration active: %1$s and %2$s work together', 'tranzly' ), $host, $brand ),
-					/* translators: %s: the other plugin's name. */
-					'activeBody'  => sprintf( __( '%s is active on this site, so both plugins share one set of AI provider keys and one settings screen for them.', 'tranzly' ), $brand ),
+					'activeBody'  => self::active_body( $slug, $brand ),
 				);
 		}
 
@@ -245,6 +254,9 @@ final class Promotions {
 		if ( 'page-builder-sandwich' === $slug ) {
 			return __( 'Build pages visually with Page Builder Sandwich', 'tranzly' );
 		}
+		if ( 'zinn-seo' === $slug ) {
+			return __( 'Get this site professionally optimised for search with Zinn® SEO', 'tranzly' );
+		}
 
 		/* translators: %s: a plugin's name. */
 		return sprintf( __( '%s, from Zinn Digital®', 'tranzly' ), $brand );
@@ -264,9 +276,34 @@ final class Promotions {
 		if ( 'page-builder-sandwich' === $slug ) {
 			return __( 'Design pages right in the editor with fast, footprint-free blocks. Everything you build translates with Tranzly.', 'tranzly' );
 		}
+		if ( 'zinn-seo' === $slug ) {
+			return __( 'Titles, sitemaps, rich results, redirects and AI visibility from one guided setup, with nothing added to the pages your visitors load, so the site stays fast. Moving from Yoast or Rank Math takes a few clicks.', 'tranzly' );
+		}
 
 		/* translators: %s: a plugin's name. */
 		return sprintf( __( '%s is made by the same team and works alongside this plugin.', 'tranzly' ), $brand );
+	}
+
+	/**
+	 * What a plugin card says once the other plugin runs on this site: what the two now do together.
+	 *
+	 * @param string $slug  The other plugin's product slug.
+	 * @param string $brand Its name.
+	 * @return string
+	 */
+	private static function active_body( string $slug, string $brand ): string {
+		if ( 'zinn-seo' === $slug ) {
+			$host = (string) Kit::host( 'slug' );
+			if ( 'tranzly' === $host ) {
+				return __( 'Zinn® SEO is active on this site: search titles, descriptions and social text are translated with each page, and every language gets its own sitemap and llms.txt.', 'tranzly' );
+			}
+			if ( 'page-builder-sandwich' === $host ) {
+				return __( 'Zinn® SEO is active on this site: its SEO blocks are in the block inserter, and the structured data of the pages you build joins one search graph.', 'tranzly' );
+			}
+		}
+
+		/* translators: %s: the other plugin's name. */
+		return sprintf( __( '%s is active on this site, so both plugins share one set of AI provider keys and one settings screen for them.', 'tranzly' ), $brand );
 	}
 
 	/**
