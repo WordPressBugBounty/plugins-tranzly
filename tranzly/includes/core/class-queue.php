@@ -503,6 +503,51 @@ final class Queue {
 	}
 
 	/**
+	 * How long until a job's next item can be worked, in seconds: 0 when one is ready now, null
+	 * when the job has nothing left to do.
+	 *
+	 * An item that is not ready is one of two things: held by a worker (its lease has not run
+	 * out — the worker is alive, or it died and the lease is what gives the item back), or put
+	 * back to be tried again a little later.
+	 *
+	 * @param int $job_id Job ID.
+	 * @return int|null
+	 */
+	public static function next_due( int $job_id ): ?int {
+		global $wpdb;
+		$row = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT COUNT(*) AS items, SUM( lease_until IS NULL ) AS ready, MIN( lease_until ) AS soonest FROM %i WHERE job_id = %d AND status IN ('queued','running')",
+				Schema::tables()['items'],
+				$job_id
+			),
+			ARRAY_A
+		);
+
+		return self::due_in( is_array( $row ) ? $row : array(), time() );
+	}
+
+	/**
+	 * The arithmetic of next_due() (the pure half).
+	 *
+	 * @param array<string, mixed> $row `items`, `ready` (items with no lease), `soonest` (the
+	 *                                  earliest lease end, UTC).
+	 * @param int                  $now Now, as a Unix time.
+	 * @return int|null
+	 */
+	public static function due_in( array $row, int $now ): ?int {
+		if ( (int) ( $row['items'] ?? 0 ) < 1 ) {
+			return null;
+		}
+		if ( (int) ( $row['ready'] ?? 0 ) > 0 || empty( $row['soonest'] ) ) {
+			return 0;
+		}
+		$at = strtotime( (string) $row['soonest'] . ' UTC' );
+
+		return false === $at ? 0 : max( 0, $at - $now );
+	}
+
+	/**
 	 * Stop a job: queued items are left undone, running ones finish.
 	 *
 	 * @param int $job_id Job ID.

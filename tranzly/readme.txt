@@ -7,7 +7,7 @@ Tags: translation, multilingual, language switcher, languages
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 3.25.14
+Stable tag: 3.26.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,12 @@ Yes. Tranzly adds the multilingual parts (hreflang, language and direction, per-
 Yes. Tranzly adds WordPress abilities and its own MCP server at `/wp-json/tranzly/v1/mcp` (WordPress 6.9 or later): languages, engines, translating posts, categories, media, menus and site texts, jobs, status, review, SEO addresses and more — everything the Tranzly screens do, with the same permission checks. In Pro, AI agents can also translate the whole site in the background, run the AI quality check, manage the glossary and export files for human translators. Create an application password under Users, Profile, then follow Tranzly, AI agents (MCP). The same actions are available over the REST API at `/wp-json/wp-abilities/v1/abilities`.
 
 == Changelog ==
+
+= 3.26.0 =
+* New: works as one with Zinn® SEO. Its SEO titles, descriptions, social text and focus phrases are translated together with each page, in the free edition too; its title patterns and llms.txt summary are translated beside your site title; a page you hide from search stays hidden in every language; and the SEO audit reads its descriptions.
+* New: pages translated before this version catch up. Zinn® SEO's Fix it list translates the search titles and descriptions they lack, with one click, without touching anything else on the page.
+* Fixed: `wp tranzly jobs run` runs a job to its end. It could stop and show items still "running" when a worker had died, and the job had to be run again.
+* Fixed: a page translated before its page builder's integration was active (Elementor, Bricks, Beaver Builder, Oxygen) gets the builder's own settings the next time it is translated. Until then a translated Elementor page could show empty.
 
 = 3.25.14 =
 * Maintenance update of the shared admin screens: the setup can continue where it stopped, and tables fit narrow screens.

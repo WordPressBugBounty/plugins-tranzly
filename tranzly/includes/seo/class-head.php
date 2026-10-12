@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once __DIR__ . '/class-zinn-seo.php';
+
 /**
  * ⭐ tz-s4: "The old version advertised this but never output them." Every page that exists in
  * more than one language lists every version, itself included, and `x-default` names the
@@ -233,7 +235,8 @@ final class Head {
 	 * @return bool
 	 */
 	public static function seo_plugin_active(): bool {
-		return defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'SEOPRESS_VERSION' ) || defined( 'AIOSEO_VERSION' );
+		// Zinn® SEO prints `og:locale` itself, and Tranzly adds the other languages to its tags.
+		return defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'SEOPRESS_VERSION' ) || defined( 'AIOSEO_VERSION' ) || Zinn_Seo::prints_open_graph();
 	}
 
 	/**

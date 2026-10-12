@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once __DIR__ . '/class-zinn-seo.php';
+
 /**
  * ⛔ WHY THIS EXISTS. A translation is a post of its own, and the SEO plugins keep "noindex" as
  * post meta, which Tranzly never copied: live 2026-10-04 on pagebuildersandwich.com, the English
@@ -28,7 +30,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * So the robots meta of an original is copied onto each translation when the translation is
  * written, and again whenever the original's robots meta changes; a one-time pass brings sites
  * translated before this version in line ({@see sync_pending()}, resuming from a cursor).
- * Only robots meta moves: titles and descriptions are TRANSLATED (Seo_Fields), never copied.
+ * Only robots meta moves: titles and descriptions are TRANSLATED (Seo_Fields, and Zinn_Seo_Fields
+ * for our own Zinn® SEO, whose key joins the list through `tranzly_robots_meta_keys` when it is
+ * active), never copied.
  */
 final class Robots {
 
@@ -139,6 +143,10 @@ final class Robots {
 					$want = metadata_exists( 'post', $source, $key ) ? get_post_meta( $source, $key, true ) : null;
 					$have = metadata_exists( 'post', $target, $key ) ? get_post_meta( $target, $key, true ) : null;
 					if ( $want === $have ) {
+						continue;
+					}
+					if ( Zinn_Seo::ROBOTS_KEY === $key && Zinn_Seo::write_robots( $target, $want ) ) {
+						++$changed;
 						continue;
 					}
 					if ( null === $want ) {
