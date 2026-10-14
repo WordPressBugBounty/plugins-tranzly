@@ -95,6 +95,11 @@ final class Models {
 		$seen = array();
 		foreach ( Catalogue::models( $provider ) as $row ) {
 			$id = (string) ( $row['id'] ?? '' );
+			if ( 'retiring' === (string) ( $row['status'] ?? '' ) ) {
+				// Retiring (the oldest of its family): never offered for a new choice (AIM1).
+				$seen[ $id ] = true;
+				continue;
+			}
 			if ( '' !== $id && ! isset( $seen[ $id ] ) ) {
 				$seen[ $id ] = true;
 				$out[]       = array(

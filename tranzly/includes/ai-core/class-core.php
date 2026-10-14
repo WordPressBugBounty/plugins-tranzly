@@ -130,7 +130,9 @@ final class Core {
 	public static function maintain(): void {
 		Store::remember_hosts( array_map( static fn( array $copy ): string => $copy['host'], self::copies() ) );
 
-		$wants = ! empty( ( (array) ( Store::get()['catalogue'] ?? array() ) )['remote'] );
+		// A catalogue that arrived with a plugin update moves saved choices too (once per catalogue).
+		Catalogue::migrate();
+		$wants = Catalogue::fetches();
 		$next  = wp_next_scheduled( self::CRON );
 		if ( $wants && false === $next ) {
 			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', self::CRON );
