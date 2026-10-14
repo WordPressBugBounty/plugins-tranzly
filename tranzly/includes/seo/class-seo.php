@@ -17,8 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once __DIR__ . '/class-zinn-seo.php';
-
 /**
  * Wires every part of T4, and serves `tranzly/v1/urls` (settings) — `manage_options` only.
  */

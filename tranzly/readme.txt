@@ -7,7 +7,7 @@ Tags: translation, multilingual, language switcher, languages
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 3.27.5
+Stable tag: 3.27.9
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,20 @@ Yes. Tranzly adds the multilingual parts (hreflang, language and direction, per-
 Yes. Tranzly adds WordPress abilities and its own MCP server at `/wp-json/tranzly/v1/mcp` (WordPress 6.9 or later): languages, engines, translating posts, categories, media, menus and site texts, jobs, status, review, SEO addresses and more — everything the Tranzly screens do, with the same permission checks. In Pro, AI agents can also translate the whole site in the background, run the AI quality check, manage the glossary and export files for human translators. Create an application password under Users, Profile, then follow Tranzly, AI agents (MCP). The same actions are available over the REST API at `/wp-json/wp-abilities/v1/abilities`.
 
 == Changelog ==
+
+= 3.27.9 =
+* Faster and lighter on servers: WP-CLI commands, scheduled tasks and AI agents (MCP) on your site now start with far less memory, so they keep working beside large plugins such as WooCommerce.
+
+= 3.27.8 =
+* Seven new messages are now translated in every language.
+
+= 3.27.7 =
+* AI agent (MCP) tools load faster and use less memory.
+
+= 3.27.6 =
+* Inline stylesheets are escaped as they are printed, and scripts are always loaded as files, never printed inline.
+* A background translation job always restores the previous user, even when it fails.
+* No JSON escaping is switched off in printed output, including the MCP connection's sign-in response.
 
 = 3.27.5 =
 * AI model lists keep themselves current: retired models leave every picker and saved choices move to the newest model of the same family.

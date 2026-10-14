@@ -18,8 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once __DIR__ . '/class-zinn-seo.php';
-
 /**
  * ⛔ WHY THIS EXISTS. A translation is a post of its own, and the SEO plugins keep "noindex" as
  * post meta, which Tranzly never copied: live 2026-10-04 on pagebuildersandwich.com, the English

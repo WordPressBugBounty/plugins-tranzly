@@ -55,7 +55,10 @@ export default function Shell( { kit, hostRoutes = [], wizard = [] } ) {
 				{ id: 'overview', label: __( 'Overview', 'tranzly' ) },
 				...hostRoutes,
 				{ id: 'setup', label: __( 'Setup', 'tranzly' ) },
-				{ id: 'plans', label: __( 'Plans and licence', 'tranzly' ) },
+				{
+					id: 'plans',
+					label: __( 'Plans and licence', 'tranzly' ),
+				},
 				{ id: 'addons', label: __( 'Add-ons', 'tranzly' ) },
 				{ id: 'help', label: __( 'Get help', 'tranzly' ) },
 				{ id: 'feedback', label: __( 'Feedback', 'tranzly' ) },
@@ -246,19 +249,19 @@ export default function Shell( { kit, hostRoutes = [], wizard = [] } ) {
 											) }
 										</MenuItem>
 									) }
-{ ! hidden.has( 'help' ) && (
-									<MenuItem
-										onClick={ () => {
-											navigate( 'help' );
-											onClose();
-										} }
-									>
-										{ __(
-											'Get help or report a bug',
-											'tranzly'
-										) }
-									</MenuItem>
-) }
+									{ ! hidden.has( 'help' ) && (
+										<MenuItem
+											onClick={ () => {
+												navigate( 'help' );
+												onClose();
+											} }
+										>
+											{ __(
+												'Get help or report a bug',
+												'tranzly'
+											) }
+										</MenuItem>
+									) }
 								</MenuGroup>
 							) }
 						</DropdownMenu>

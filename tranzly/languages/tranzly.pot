@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Tranzly™ 3.27.5\n"
+"Project-Id-Version: Tranzly™ 3.27.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/tranzly\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-12T12:00:03+00:00\n"
+"POT-Creation-Date: 2026-10-14T02:12:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: tranzly\n"
@@ -1697,30 +1697,30 @@ msgstr ""
 msgid "There is nothing you are allowed to translate in that selection."
 msgstr ""
 
-#: includes/core/class-queue.php:394
-#: includes/core/class-queue.php:475
+#: includes/core/class-queue.php:408
+#: includes/core/class-queue.php:489
 msgid "That item is not part of a translation job."
 msgstr ""
 
-#: includes/core/class-queue.php:402
+#: includes/core/class-queue.php:416
 msgid "That item is already translated, so there is nothing to retry. To retry every failed item of a job, run wp tranzly jobs retry-failed with the job ID, or retry each one from the job's list of what failed."
 msgstr ""
 
-#: includes/core/class-queue.php:403
+#: includes/core/class-queue.php:417
 msgid "That item is already waiting to be translated."
 msgstr ""
 
-#: includes/core/class-queue.php:449
+#: includes/core/class-queue.php:463
 msgid "There is no translation job with that ID."
 msgstr ""
 
-#: includes/core/class-queue.php:486
+#: includes/core/class-queue.php:500
 #: includes/core/class-translator.php:103
 #: includes/core/class-translator.php:183
 msgid "You are not allowed to change that translation."
 msgstr ""
 
-#: includes/core/class-queue.php:708
+#: includes/core/class-queue.php:722
 msgid "Translating this item stopped with an error in WordPress or another plugin. The details are below; retry it once the cause is fixed."
 msgstr ""
 
@@ -1899,7 +1899,7 @@ msgstr ""
 msgid "The translation with %s failed for a reason Tranzly could not identify. The details are below."
 msgstr ""
 
-#: includes/engines/class-registry.php:76
+#: includes/engines/class-registry.php:118
 msgid "An engine id must be lowercase letters, digits and hyphens."
 msgstr ""
 
@@ -3020,7 +3020,7 @@ msgstr ""
 
 #: includes/freemius-strings.php:868
 #: includes/freemius-strings.php:3739
-#: includes/mcp-kit/class-server.php:346
+#: includes/mcp-kit/class-server.php:354
 #: src/admin-kit/Support.js:243
 #: src/mcp-kit/McpPanel.js:212
 msgid "Disconnect"
@@ -6097,97 +6097,97 @@ msgstr ""
 msgid "Do not allow"
 msgstr ""
 
-#: includes/mcp-kit/class-rest-bridge.php:325
+#: includes/mcp-kit/class-rest-bridge.php:351
 msgid "A required value is missing or has the wrong form. Check the ability's input schema."
 msgstr ""
 
-#: includes/mcp-kit/class-rest-bridge.php:358
+#: includes/mcp-kit/class-rest-bridge.php:384
 msgid "The site refused the request."
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:118
+#: includes/mcp-kit/class-server.php:124
 msgid "Unknown tool."
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:314
+#: includes/mcp-kit/class-server.php:322
 #: src/admin/Root.js:54
 #: src/mcp-kit/McpPanel.js:96
 msgid "AI agents (MCP)"
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:315
+#: includes/mcp-kit/class-server.php:323
 #: src/mcp-kit/McpPanel.js:112
 msgid "Let AI assistants such as Claude, Cursor or VS Code work on this site for you through MCP (Model Context Protocol). They sign in as a WordPress user (Claude and ChatGPT by approving them here, others with an application password) and can do only what that user is allowed to do."
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:317
+#: includes/mcp-kit/class-server.php:325
 #: src/mcp-kit/McpPanel.js:130
 msgid "AI agents need WordPress 6.9 or later. Update WordPress to use them."
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:323
+#: includes/mcp-kit/class-server.php:331
 #: src/mcp-kit/McpPanel.js:119
 msgid "Allow AI agents (MCP)"
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:325
+#: includes/mcp-kit/class-server.php:333
 #: src/mcp-kit/McpPanel.js:120
 msgid "Off: the tools below and their REST routes are not registered at all."
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:330
+#: includes/mcp-kit/class-server.php:338
 #: src/mcp-kit/McpPanel.js:141
 msgid "Connection address (MCP endpoint)"
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:334
+#: includes/mcp-kit/class-server.php:342
 #: src/mcp-kit/McpPanel.js:154
 msgid "Claude and ChatGPT: sign in instead"
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:335
+#: includes/mcp-kit/class-server.php:343
 #: src/mcp-kit/McpPanel.js:160
 msgid "Add the connection address as a custom connector in Claude, or as an app in ChatGPT developer mode. They open this site so you can approve them; no password to copy."
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:337
+#: includes/mcp-kit/class-server.php:345
 #: src/mcp-kit/McpPanel.js:168
 msgid "AI apps connected to your account:"
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:352
+#: includes/mcp-kit/class-server.php:360
 #: src/mcp-kit/McpPanel.js:226
 msgid "Other AI apps: an application password"
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:354
+#: includes/mcp-kit/class-server.php:362
 #: src/mcp-kit/McpPanel.js:237
 msgid "Create an application password for your user"
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:355
+#: includes/mcp-kit/class-server.php:363
 #: src/mcp-kit/McpPanel.js:244
 msgid "Add this to your AI app’s MCP settings, with your username and that password:"
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:357
+#: includes/mcp-kit/class-server.php:365
 #: src/mcp-kit/McpPanel.js:254
 msgid "VS Code: put the same entry under \"servers\" in .vscode/mcp.json, not under \"mcpServers\"."
 msgstr ""
 
 #. translators: %d: how many tools an AI agent can use.
-#: includes/mcp-kit/class-server.php:361
+#: includes/mcp-kit/class-server.php:369
 #: src/mcp-kit/McpPanel.js:262
 #, php-format,js-format
 msgid "Tools an AI agent can use here (%d):"
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:372
+#: includes/mcp-kit/class-server.php:380
 #: src/mcp-kit/McpPanel.js:281
 msgid "User guide: AI agents and MCP"
 msgstr ""
 
-#: includes/mcp-kit/class-server.php:375
+#: includes/mcp-kit/class-server.php:383
 #: src/mcp-kit/McpPanel.js:291
 msgid "Developer docs: abilities, REST and MCP"
 msgstr ""
@@ -6281,578 +6281,606 @@ msgid "Shares comments across a post's translations or keeps them per language (
 msgstr ""
 
 #: includes/mcp/class-rest-map.php:55
-msgid "Read the display options"
+msgid "Read the shop's currencies (Pro)"
 msgstr ""
 
 #: includes/mcp/class-rest-map.php:56
-msgid "Returns the language switcher and credit display options."
+msgid "Returns the extra currencies the shop shows prices in, each with its rate, whether the rate is set by hand, decimals and rounding, and when the rates were last refreshed."
 msgstr ""
 
 #: includes/mcp/class-rest-map.php:64
-msgid "Change the display options"
+msgid "Change the shop's currencies (Pro)"
 msgstr ""
 
 #: includes/mcp/class-rest-map.php:65
+msgid "Replaces the extra currencies (currencies: each code, rate, manual, decimals, rounding, round_to, ending)."
+msgstr ""
+
+#: includes/mcp/class-rest-map.php:72
+msgid "Every extra currency: code (e.g. EUR), rate (e.g. 0.92), manual (true keeps the rate you set), decimals (0-4), rounding (none, up, down or nearest), round_to (e.g. 0.05), ending (e.g. 0.99)."
+msgstr ""
+
+#: includes/mcp/class-rest-map.php:80
+msgid "Refresh the currency rates (Pro)"
+msgstr ""
+
+#: includes/mcp/class-rest-map.php:81
+msgid "Fetches today's exchange rates for every currency whose rate is not set by hand."
+msgstr ""
+
+#: includes/mcp/class-rest-map.php:89
+msgid "Read the display options"
+msgstr ""
+
+#: includes/mcp/class-rest-map.php:90
+msgid "Returns the language switcher and credit display options."
+msgstr ""
+
+#: includes/mcp/class-rest-map.php:98
+msgid "Change the display options"
+msgstr ""
+
+#: includes/mcp/class-rest-map.php:99
 msgid "Changes the switcher (style, flags, names, placement) and the credit line."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:78
+#: includes/mcp/class-rest-map.php:112
 msgid "Read the DeepL usage"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:79
+#: includes/mcp/class-rest-map.php:113
 msgid "Returns the characters used and the limit of the saved DeepL key this month."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:87
+#: includes/mcp/class-rest-map.php:121
 msgid "Read the engine settings"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:88
+#: includes/mcp/class-rest-map.php:122
 msgid "Returns the default and fallback engine, per-language engines and AI models, each engine's state, the connected AI providers with their models, and this month's spend."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:96
+#: includes/mcp/class-rest-map.php:130
 msgid "Change the engine settings"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:97
+#: includes/mcp/class-rest-map.php:131
 msgid "Sets the default engine, a fallback engine, per-language engines and per-language AI models (default, fallback, per_lang, models, caps). Everything but the default engine is Pro."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:103
+#: includes/mcp/class-rest-map.php:137
 msgid "ID of the default translation engine (deepl, ai, google or microsoft); empty for automatic."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:107
+#: includes/mcp/class-rest-map.php:141
 msgid "Pro: language code => engine ID used for that language."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:112
+#: includes/mcp/class-rest-map.php:146
 msgid "Pro: engine IDs tried in order when the first one fails."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:116
+#: includes/mcp/class-rest-map.php:150
 msgid "Pro: engine ID => monthly spending cap in US dollars. An AI provider has its own cap, keyed ai: and the provider id, for example ai:anthropic."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:120
+#: includes/mcp/class-rest-map.php:154
 msgid "Pro: language code => {provider, model} used when the AI engine translates that language; the key * sets the model for every other language. Empty model: the provider's recommended one."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:128
+#: includes/mcp/class-rest-map.php:162
 msgid "Save an engine key"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:129
+#: includes/mcp/class-rest-map.php:163
 msgid "Saves the API key (and region for Microsoft) of DeepL, Google or Microsoft; empty removes it. Keys are stored encrypted and never returned."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:137
+#: includes/mcp/class-rest-map.php:171
 msgid "Estimate a translation"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:138
+#: includes/mcp/class-rest-map.php:172
 msgid "Estimates characters and cost to translate posts (posts or post_type) into languages (langs) with an engine, before spending anything."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:156
+#: includes/mcp/class-rest-map.php:190
 msgid "Import a translated file (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:157
+#: includes/mcp/class-rest-map.php:191
 msgid "Uploads a Tranzly XLIFF or CSV file (content, filename) translated elsewhere; answers a token that identifies the upload for the import."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:164
+#: includes/mcp/class-rest-map.php:198
 msgid "The XLIFF or CSV file's text."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:169
+#: includes/mcp/class-rest-map.php:203
 msgid "The file name, e.g. site-de.xlf."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:177
+#: includes/mcp/class-rest-map.php:211
 msgid "List plugins to migrate from (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:178
+#: includes/mcp/class-rest-map.php:212
 msgid "Lists WPML, Polylang and TranslatePress data found on this site that can be imported."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:186
+#: includes/mcp/class-rest-map.php:220
 msgid "Migrate from WPML, Polylang or TranslatePress (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:187
+#: includes/mcp/class-rest-map.php:221
 msgid "Imports the next page of translations from another multilingual plugin (mode: dry-run or run; cursor)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:195
+#: includes/mcp/class-rest-map.php:229
 msgid "Write an imported file (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:196
+#: includes/mcp/class-rest-map.php:230
 msgid "Writes the next page of posts from an uploaded translation file (repeat with after until done)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:204
+#: includes/mcp/class-rest-map.php:238
 msgid "Read the integrations"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:205
+#: includes/mcp/class-rest-map.php:239
 msgid "Lists the SEO, WooCommerce, page-builder and form plugins Tranzly supports and which are active here."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:213
+#: includes/mcp/class-rest-map.php:247
 msgid "List translation jobs"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:214
+#: includes/mcp/class-rest-map.php:248
 msgid "Lists background translation jobs, newest first, with progress."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:222
+#: includes/mcp/class-rest-map.php:256
 msgid "Start a translation job"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:223
+#: includes/mcp/class-rest-map.php:257
 msgid "Starts a background job translating listed posts (posts) or a whole post type into languages (langs)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:231
+#: includes/mcp/class-rest-map.php:265
 msgid "Retry or hand off a failed item"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:232
+#: includes/mcp/class-rest-map.php:266
 msgid "Retries a failed item (action: retry, optionally with another engine) or marks it for translating by hand (action: by-hand)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:240
+#: includes/mcp/class-rest-map.php:274
 msgid "Read a job's progress"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:241
+#: includes/mcp/class-rest-map.php:275
 msgid "Returns one job's progress and counts."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:249
+#: includes/mcp/class-rest-map.php:283
 msgid "Cancel a job"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:250
+#: includes/mcp/class-rest-map.php:284
 msgid "Stops a job; translations already made are kept."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:258
+#: includes/mcp/class-rest-map.php:292
 msgid "Read a job's failures"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:259
+#: includes/mcp/class-rest-map.php:293
 msgid "Lists a job's failed items with the reason for each."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:267
+#: includes/mcp/class-rest-map.php:301
 msgid "Read the licence"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:268
+#: includes/mcp/class-rest-map.php:302
 msgid "Returns this site's Tranzly plan, licence state, renewal date and what the plan includes."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:286
+#: includes/mcp/class-rest-map.php:320
 msgid "Disconnect from support"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:287
+#: includes/mcp/class-rest-map.php:321
 msgid "Disconnects this site from support."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:295
+#: includes/mcp/class-rest-map.php:329
 msgid "Read the support connection"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:296
+#: includes/mcp/class-rest-map.php:330
 msgid "Says whether this site is connected to Zinn Digital® support, and as whom."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:304
+#: includes/mcp/class-rest-map.php:338
 msgid "Connect to support"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:305
+#: includes/mcp/class-rest-map.php:339
 msgid "Connects this site to Zinn Digital® support (name, email, consent)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:313
+#: includes/mcp/class-rest-map.php:347
 msgid "Consent to support diagnostics"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:314
+#: includes/mcp/class-rest-map.php:348
 msgid "Records the administrator's consent to send diagnostics with support tickets."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:321
+#: includes/mcp/class-rest-map.php:355
 msgid "True records the administrator's consent to send diagnostics with support tickets."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:329
+#: includes/mcp/class-rest-map.php:363
 msgid "Read the site diagnostics"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:330
+#: includes/mcp/class-rest-map.php:364
 msgid "Returns the diagnostics a support ticket would carry: versions, active plugins, limits and recent errors."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:338
+#: includes/mcp/class-rest-map.php:372
 msgid "Open a support ticket"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:339
+#: includes/mcp/class-rest-map.php:373
 msgid "Files a support ticket (subject, message, kind, email), with this site's diagnostics when the administrator agreed. It never creates a login or sends one."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:346
+#: includes/mcp/class-rest-map.php:380
 msgid "The ticket subject (up to 200 characters)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:351
+#: includes/mcp/class-rest-map.php:385
 msgid "What happened, or the question."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:356
+#: includes/mcp/class-rest-map.php:390
 msgid "The kind of request; help when omitted."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:360
+#: includes/mcp/class-rest-map.php:394
 msgid "Reply address; the connected support email when omitted."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:364
+#: includes/mcp/class-rest-map.php:398
 msgid "Name to reply to."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:368
+#: includes/mcp/class-rest-map.php:402
 msgid "True attaches this site's diagnostics (needs the administrator's consent)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:376
+#: includes/mcp/class-rest-map.php:410
 msgid "Start the free Pro trial"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:377
+#: includes/mcp/class-rest-map.php:411
 msgid "Starts the 14-day Tranzly Pro trial for this site (no payment needed)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:395
+#: includes/mcp/class-rest-map.php:429
 msgid "Read the Tranzly 2.x import"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:396
+#: includes/mcp/class-rest-map.php:430
 msgid "Returns the state and report of importing translations from Tranzly 2.x."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:404
+#: includes/mcp/class-rest-map.php:438
 msgid "Import Tranzly 2.x translations"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:405
+#: includes/mcp/class-rest-map.php:439
 msgid "Runs the 2.x import: dry-run (report only), run, or undo."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:413
+#: includes/mcp/class-rest-map.php:447
 msgid "Translate an image's text"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:414
+#: includes/mcp/class-rest-map.php:448
 msgid "Saves an image's alt text, title or caption (field) in a language (lang)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:422
+#: includes/mcp/class-rest-map.php:456
 msgid "Read the menus per language"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:423
+#: includes/mcp/class-rest-map.php:457
 msgid "Returns which menu each language shows in each menu location."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:431
+#: includes/mcp/class-rest-map.php:465
 msgid "Set the menus per language"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:432
+#: includes/mcp/class-rest-map.php:466
 msgid "Assigns a menu per language per location (map)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:445
+#: includes/mcp/class-rest-map.php:479
 msgid "Protect or unlock a translation"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:446
+#: includes/mcp/class-rest-map.php:480
 msgid "Protects a translation from being overwritten by the engine (protected: true), or unlocks it."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:454
+#: includes/mcp/class-rest-map.php:488
 msgid "Read a quality report (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:455
+#: includes/mcp/class-rest-map.php:489
 msgid "Returns a translation's AI quality report: score and the segments it flagged."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:463
+#: includes/mcp/class-rest-map.php:497
 msgid "Approve or reject a translation (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:464
+#: includes/mcp/class-rest-map.php:498
 msgid "Approves a translation (and publishes it when the original is published) or sends it back (decision, note)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:472
+#: includes/mcp/class-rest-map.php:506
 msgid "Read a translation side by side"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:473
+#: includes/mcp/class-rest-map.php:507
 msgid "Returns a translation's segments beside the original's, for review and correction."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:481
+#: includes/mcp/class-rest-map.php:515
 msgid "Correct a translation"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:482
+#: includes/mcp/class-rest-map.php:516
 msgid "Saves corrected segments of a translation (segments: key to text); corrected text is protected from re-translation."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:495
+#: includes/mcp/class-rest-map.php:529
 msgid "Unlink a post from its translations"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:496
+#: includes/mcp/class-rest-map.php:530
 msgid "Takes a post out of its translation group; it keeps its language."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:504
+#: includes/mcp/class-rest-map.php:538
 msgid "Read a post's translations"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:505
+#: includes/mcp/class-rest-map.php:539
 msgid "Lists a post's translation group: every language's member with its title, status and edit link."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:513
+#: includes/mcp/class-rest-map.php:547
 msgid "Create an empty translation"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:514
+#: includes/mcp/class-rest-map.php:548
 msgid "Creates a draft translation of a post in a language (lang) to write by hand, without an engine."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:522
+#: includes/mcp/class-rest-map.php:556
 msgid "Link an existing post as a translation"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:523
+#: includes/mcp/class-rest-map.php:557
 msgid "Makes an existing post (target) the translation of this post in a language."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:531
+#: includes/mcp/class-rest-map.php:565
 msgid "Check translations with AI (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:532
+#: includes/mcp/class-rest-map.php:566
 msgid "Schedules the AI quality check of the next page of a language's translations (or the given posts)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:540
+#: includes/mcp/class-rest-map.php:574
 msgid "Multilingual SEO audit (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:541
+#: includes/mcp/class-rest-map.php:575
 msgid "Checks translations for missing SEO titles, descriptions, slugs and hreflang in a language, page by page."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:554
+#: includes/mcp/class-rest-map.php:588
 msgid "Change languages and settings"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:555
+#: includes/mcp/class-rest-map.php:589
 msgid "Sets the site's languages (languages: list of code and name; the first is the original language), the front-end class prefix, and whether AI agents (MCP) are allowed."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:563
+#: includes/mcp/class-rest-map.php:597
 msgid "Read theme and plugin texts"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:564
+#: includes/mcp/class-rest-map.php:598
 msgid "Returns the theme and plugin texts (scope) in a language with their translations."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:572
+#: includes/mcp/class-rest-map.php:606
 msgid "Translate missing theme and plugin texts"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:573
+#: includes/mcp/class-rest-map.php:607
 msgid "Translates the next page of untranslated theme and plugin texts in a language with the default engine (repeat with after until done)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:581
+#: includes/mcp/class-rest-map.php:615
 msgid "Correct theme and plugin texts"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:582
+#: includes/mcp/class-rest-map.php:616
 msgid "Saves corrected translations of theme and plugin texts (strings); they become protected."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:595
+#: includes/mcp/class-rest-map.php:629
 msgid "Translate what is missing"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:596
+#: includes/mcp/class-rest-map.php:630
 msgid "Queues translation of every missing (or out-of-date) item in a language and post type."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:604
+#: includes/mcp/class-rest-map.php:638
 msgid "List what is missing or out of date"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:605
+#: includes/mcp/class-rest-map.php:639
 msgid "Lists originals with their translation state in a language (state: missing, stale, current), page by page."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:613
+#: includes/mcp/class-rest-map.php:647
 msgid "Read the site's texts in a language"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:614
+#: includes/mcp/class-rest-map.php:648
 msgid "Returns the site title, tagline and widget texts in a language."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:622
+#: includes/mcp/class-rest-map.php:656
 msgid "Translate a site text"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:623
+#: includes/mcp/class-rest-map.php:657
 msgid "Saves one site text (key) in a language, e.g. the site title or tagline."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:631
+#: includes/mcp/class-rest-map.php:665
 msgid "Translate a category or tag"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:632
+#: includes/mcp/class-rest-map.php:666
 msgid "Translates one term (category, tag or product attribute) into a language (lang) with an engine, creating or updating its translation."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:640
+#: includes/mcp/class-rest-map.php:674
 msgid "Unlink a term from its translations"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:641
+#: includes/mcp/class-rest-map.php:675
 msgid "Takes a term out of its translation group."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:649
+#: includes/mcp/class-rest-map.php:683
 msgid "Read a term's translations"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:650
+#: includes/mcp/class-rest-map.php:684
 msgid "Lists a category's or tag's translation group."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:658
+#: includes/mcp/class-rest-map.php:692
 msgid "Create a term translation by hand"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:659
+#: includes/mcp/class-rest-map.php:693
 msgid "Creates a term's translation in a language with a name, slug and description you give."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:667
+#: includes/mcp/class-rest-map.php:701
 msgid "Link an existing term as a translation"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:668
+#: includes/mcp/class-rest-map.php:702
 msgid "Makes an existing term (target) the translation of this term in a language."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:676
+#: includes/mcp/class-rest-map.php:710
 msgid "List theme and plugin text sources (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:677
+#: includes/mcp/class-rest-map.php:711
 msgid "Lists the themes and plugins whose texts can be scanned for translation, and how many strings each has."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:685
+#: includes/mcp/class-rest-map.php:719
 msgid "Scan a theme or plugin for texts (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:686
+#: includes/mcp/class-rest-map.php:720
 msgid "Scans the next page of a component's PHP files for translatable texts (repeat with after until done)."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:699
+#: includes/mcp/class-rest-map.php:733
 msgid "Read the address settings"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:700
+#: includes/mcp/class-rest-map.php:734
 msgid "Returns how languages appear in addresses (folder, subdomain or domain), translated slugs and bases, and noindex for untranslated pages."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:708
+#: includes/mcp/class-rest-map.php:742
 msgid "Change the address settings"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:709
+#: includes/mcp/class-rest-map.php:743
 msgid "Sets the address mode (mode), per-language domains, translated bases and segments, noindex_untranslated and slug suggestions."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:722
+#: includes/mcp/class-rest-map.php:756
 msgid "Estimate translating the site (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:723
+#: includes/mcp/class-rest-map.php:757
 msgid "Estimates a whole-site translation in a language (post_types, scope, engine) before starting it."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:731
+#: includes/mcp/class-rest-map.php:765
 msgid "Read the workflow settings (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:732
+#: includes/mcp/class-rest-map.php:766
 msgid "Returns auto-translation on publish and on update, review before publish, and the AI quality check's threshold, provider and model."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:740
+#: includes/mcp/class-rest-map.php:774
 msgid "Change the workflow settings (Pro)"
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:741
+#: includes/mcp/class-rest-map.php:775
 msgid "Sets on_update (off, stale, translate), on_publish, review, quality_threshold, quality_provider and quality_model."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:748
+#: includes/mcp/class-rest-map.php:782
 msgid "When an original changes: nothing, mark its translations out of date, or translate them again."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:752
+#: includes/mcp/class-rest-map.php:786
 msgid "Translate a post into every language when it is published."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:756
+#: includes/mcp/class-rest-map.php:790
 msgid "New translations wait for review instead of being published."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:762
+#: includes/mcp/class-rest-map.php:796
 msgid "Quality score below which a translation is flagged."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:766
+#: includes/mcp/class-rest-map.php:800
 msgid "AI provider of the quality check."
 msgstr ""
 
-#: includes/mcp/class-rest-map.php:770
+#: includes/mcp/class-rest-map.php:804
 msgid "AI model of the quality check."
 msgstr ""
 
@@ -7539,65 +7567,65 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
-#: src/admin-kit/Shell.js:58
+#: src/admin-kit/Shell.js:60
 msgid "Plans and licence"
 msgstr ""
 
-#: src/admin-kit/Shell.js:59
+#: src/admin-kit/Shell.js:62
 msgid "Add-ons"
 msgstr ""
 
-#: src/admin-kit/Shell.js:60
+#: src/admin-kit/Shell.js:63
 #: src/admin-kit/Wizard.js:90
 msgid "Get help"
 msgstr ""
 
-#: src/admin-kit/Shell.js:61
+#: src/admin-kit/Shell.js:64
 msgid "Feedback"
 msgstr ""
 
-#: src/admin-kit/Shell.js:83
+#: src/admin-kit/Shell.js:86
 msgid "Your choice could not be saved."
 msgstr ""
 
-#: src/admin-kit/Shell.js:103
+#: src/admin-kit/Shell.js:106
 msgid "The setup state could not be saved."
 msgstr ""
 
-#: src/admin-kit/Shell.js:112
+#: src/admin-kit/Shell.js:115
 msgid "Match my computer"
 msgstr ""
 
-#: src/admin-kit/Shell.js:113
+#: src/admin-kit/Shell.js:116
 msgid "Light"
 msgstr ""
 
-#: src/admin-kit/Shell.js:114
+#: src/admin-kit/Shell.js:117
 msgid "Dark"
 msgstr ""
 
-#: src/admin-kit/Shell.js:194
+#: src/admin-kit/Shell.js:197
 msgid "Colour scheme"
 msgstr ""
 
-#: src/admin-kit/Shell.js:222
+#: src/admin-kit/Shell.js:225
 msgid "Help"
 msgstr ""
 
-#: src/admin-kit/Shell.js:231
+#: src/admin-kit/Shell.js:234
 msgid "Guide to this screen"
 msgstr ""
 
-#: src/admin-kit/Shell.js:243
+#: src/admin-kit/Shell.js:246
 msgid "Take the tour"
 msgstr ""
 
-#: src/admin-kit/Shell.js:256
+#: src/admin-kit/Shell.js:259
 #: src/admin-kit/Support.js:391
 msgid "Get help or report a bug"
 msgstr ""
 
-#: src/admin-kit/Shell.js:270
+#: src/admin-kit/Shell.js:273
 msgid "Plugin screens"
 msgstr ""
 

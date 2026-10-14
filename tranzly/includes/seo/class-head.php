@@ -17,8 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once __DIR__ . '/class-zinn-seo.php';
-
 /**
  * ⭐ tz-s4: "The old version advertised this but never output them." Every page that exists in
  * more than one language lists every version, itself included, and `x-default` names the

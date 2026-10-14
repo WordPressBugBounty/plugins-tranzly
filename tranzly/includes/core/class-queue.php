@@ -250,8 +250,25 @@ final class Queue {
 			return;
 		}
 		$previous = get_current_user_id();
+		// wporg-justified: a background worker has no user, so wp_insert_post() would apply kses for an anonymous user and stamp no author; it acts as the job's creator (already capability-checked when the job was queued) and is restored below.
 		wp_set_current_user( (int) $row['created_by'] );
+		try {
+			self::run_claims( $job_id, $row );
+		} finally {
+			// wporg-justified: restores the user who was current before this worker ran (see above).
+			wp_set_current_user( $previous );
+		}
+		self::after_work( $job_id );
+	}
 
+	/**
+	 * Claim and translate items of one job until the worker's time budget is spent.
+	 *
+	 * @param int                  $job_id The job ID.
+	 * @param array<string, mixed> $row    The job row.
+	 * @return void
+	 */
+	private static function run_claims( int $job_id, array $row ): void {
 		$options = (array) json_decode( (string) $row['options'], true );
 
 		/**
@@ -286,9 +303,6 @@ final class Queue {
 				}
 			}
 		}
-
-		wp_set_current_user( $previous );
-		self::after_work( $job_id );
 	}
 
 	/**
