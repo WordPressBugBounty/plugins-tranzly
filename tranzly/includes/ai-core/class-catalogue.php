@@ -28,9 +28,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * ⛔ And a valid catalogue OLDER than the one in use is refused too: a correctly signed but stale
  * file replayed from a cache must not roll a site back to last year's recommendations.
  *
- * The remote fetch is OFF until the site owner ticks the box (consent) or connects the site to
- * Zinn® credits, sends nothing but a plain GET with our own User-Agent, and runs at most once a
- * day. A newer catalogue moves saved choices off retiring models (`migrate()`, AIM1).
+ * The remote fetch is OFF until the site owner ticks the box (consent) — or, in Pro only, connects
+ * the site to Zinn® (`Policy::fetches_when_connected()`, Q209) — sends nothing but a plain GET
+ * with our own User-Agent, and runs at most once a day. A newer catalogue moves saved choices off
+ * retiring models (`migrate()`, AIM1).
  */
 final class Catalogue {
 
@@ -336,9 +337,9 @@ final class Catalogue {
 	}
 
 	/**
-	 * Whether this site fetches the newer catalogue: the owner ticked the box, or connected the
-	 * site to Zinn® (they already chose our service; the request is the same plain GET to the same
-	 * host and carries nothing about the site).
+	 * Whether this site fetches the newer catalogue: the owner ticked the box. In Pro, a site
+	 * connected to Zinn® fetches too; in the free edition (WordPress.org) connecting is consent to
+	 * the credits service only, never to this separate daily call (Q209).
 	 *
 	 * @return bool
 	 */
@@ -347,7 +348,7 @@ final class Catalogue {
 		if ( ! empty( $record['remote'] ) ) {
 			return true;
 		}
-		return ! empty( Zinn::state()['connected'] );
+		return Core::policy()->fetches_when_connected() && ! empty( Zinn::state()['connected'] );
 	}
 
 	/**

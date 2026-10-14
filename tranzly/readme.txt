@@ -7,7 +7,7 @@ Tags: translation, multilingual, language switcher, languages
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 3.27.9
+Stable tag: 3.27.10
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -108,7 +108,7 @@ AI features use the AI provider you choose, with your own API key. Nothing is se
 * OpenRouter: https://openrouter.ai/api/v1 (terms: https://openrouter.ai/terms, privacy policy: https://openrouter.ai/privacy)
 * A service you run yourself (any OpenAI-compatible address you enter): only that address is contacted.
 
-Recommended models list (off unless you turn it on). If you turn on the daily check for a newer recommended models list under Settings → AI providers, the plugin requests https://api.zinndigital.com/v1/ai-model-catalogue once a day. The request is a plain download: it carries no key, no site address and nothing about your content, and the list is signed so a changed copy is ignored.
+Recommended models list (off until ticked). The daily check under Settings → AI providers requests the signed list from https://api.zinndigital.com/v1/ai-model-catalogue, sending no key, site address or content. Connecting to Zinn® credits does not turn it on (in Pro it does).
 
 * Service: https://zinndigital.com
 * Terms: https://zinndigital.com/legal/terms
@@ -158,6 +158,9 @@ Yes. Tranzly adds the multilingual parts (hreflang, language and direction, per-
 Yes. Tranzly adds WordPress abilities and its own MCP server at `/wp-json/tranzly/v1/mcp` (WordPress 6.9 or later): languages, engines, translating posts, categories, media, menus and site texts, jobs, status, review, SEO addresses and more — everything the Tranzly screens do, with the same permission checks. In Pro, AI agents can also translate the whole site in the background, run the AI quality check, manage the glossary and export files for human translators. Create an application password under Users, Profile, then follow Tranzly, AI agents (MCP). The same actions are available over the REST API at `/wp-json/wp-abilities/v1/abilities`.
 
 == Changelog ==
+
+= 3.27.10 =
+* Privacy: the recommended AI models list is downloaded only when you tick its daily check under Settings → AI providers; connecting to Zinn® credits no longer turns it on. In the Pro edition, a site connected to Zinn® keeps its list current, and the screen says so.
 
 = 3.27.9 =
 * Faster and lighter on servers: WP-CLI commands, scheduled tasks and AI agents (MCP) on your site now start with far less memory, so they keep working beside large plugins such as WooCommerce.

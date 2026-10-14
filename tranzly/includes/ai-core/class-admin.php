@@ -251,7 +251,8 @@ final class Admin {
 	 */
 	private static function render_providers(): void {
 		echo '<h2>' . esc_html__( 'Providers', 'tranzly' ) . '</h2>';
-		echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Provider', 'tranzly' ) . '</th><th>' . esc_html__( 'Status', 'tranzly' ) . '</th><th>' . esc_html__( 'Key', 'tranzly' ) . '</th></tr></thead><tbody>';
+		// Fits a 360 px screen (CONSENT1): WordPress's fixed table layout, long model ids wrap.
+		echo '<table class="widefat striped fixed" style="overflow-wrap:anywhere"><thead><tr><th>' . esc_html__( 'Provider', 'tranzly' ) . '</th><th>' . esc_html__( 'Status', 'tranzly' ) . '</th><th>' . esc_html__( 'Key', 'tranzly' ) . '</th></tr></thead><tbody>';
 		foreach ( Registry::all() as $id => $spec ) {
 			$saved = Store::provider( $id );
 			if ( Zinn::ID === $id ) {
@@ -541,6 +542,10 @@ final class Admin {
 		echo '<input type="hidden" name="action" value="zinn_ai_catalogue">';
 		echo '<p><label><input type="checkbox" name="remote" value="1"' . checked( ! empty( $record['remote'] ), true, false ) . '> ' . esc_html__( 'Also check Zinn Digital® once a day for an updated list.', 'tranzly' ) . '</label></p>';
 		echo '<p class="description">' . esc_html__( 'Only a plain download request is sent: no key, no site address, nothing about your content. The list is signed, and a list that fails the signature check is ignored.', 'tranzly' ) . '</p>';
+		if ( empty( $record['remote'] ) && Catalogue::fetches() ) {
+			// Pro only (Q209): the connection keeps the list current, so say so beside the box.
+			echo '<p class="description">' . esc_html__( 'This site is connected to Zinn®, so the list is also checked once a day while it stays connected.', 'tranzly' ) . '</p>';
+		}
 		if ( isset( $record['checked_at'] ) ) {
 			echo '<p class="description">' . esc_html(
 				sprintf(
