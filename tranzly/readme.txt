@@ -7,7 +7,7 @@ Tags: translation, multilingual, language switcher, languages
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 3.27.12
+Stable tag: 3.27.13
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,9 @@ Yes. Tranzly adds the multilingual parts (hreflang, language and direction, per-
 Yes. Tranzly adds WordPress abilities and its own MCP server at `/wp-json/tranzly/v1/mcp` (WordPress 6.9 or later): languages, engines, translating posts, categories, media, menus and site texts, jobs, status, review, SEO addresses and more — everything the Tranzly screens do, with the same permission checks. In Pro, AI agents can also translate the whole site in the background, run the AI quality check, manage the glossary and export files for human translators. Create an application password under Users, Profile, then follow Tranzly, AI agents (MCP). The same actions are available over the REST API at `/wp-json/wp-abilities/v1/abilities`.
 
 == Changelog ==
+
+= 3.27.13 =
+* Fix: DeepL translations no longer fail with "A non-empty request body is required" (DeepL API Free keys). Tranzly now sends text to DeepL in the form every DeepL service accepts, retries once in the other format if DeepL says the request arrived empty, never lets a redirect drop the text, and says plainly when something on the site removed it.
 
 = 3.27.12 =
 * Maintenance release: comes with the latest list of recommended AI models.

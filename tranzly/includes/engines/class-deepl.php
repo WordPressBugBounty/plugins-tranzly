@@ -29,6 +29,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   with Pro a glossary created in the owner's DeepL account per language pair;
  * - up to 50 texts per request, far fewer requests than the legacy one-request-per-chunk loop.
  *
+ * 3.27.13 (ticket 01a13e23, 2026-10-15): a customer on a DeepL Free key got HTTP 400 "A non-empty
+ * request body is required" for EVERY translation (0 of 355) while `/v2/usage` worked — DeepL's
+ * Free host received the JSON POST with no body. The body is now sent form-encoded, DeepL's
+ * original and universally accepted format (`text` repeated once per text); a 400 that says the
+ * body was empty is retried once as JSON, so either format reaching DeepL intact is enough; a
+ * redirect is never followed silently (WordPress turns a 301/302 POST into a GET and drops the
+ * body — exactly this error); and a failure that persists names the bytes Tranzly sent, so the
+ * site owner can see that something between WordPress and DeepL removed them.
+ *
  * Price: DeepL's paid API plan is now "Growth": US$27.50 per million characters beyond the 1
  * million it includes (deepl.com/en/pro#api with the US selected, checked 2026-10-04; in Germany
  * the same plan is €22 per million — packageId `api-growth`, `usageBasedPrice` 2200 cents per
@@ -340,7 +349,7 @@ final class DeepL implements Engine {
 	 * @param string               $key    The API key.
 	 * @param string               $method GET or POST.
 	 * @param string               $path   Path under the API host.
-	 * @param array<string, mixed> $body   JSON body for POST.
+	 * @param array<string, mixed> $body   Fields for POST (a list value repeats the field).
 	 * @return array<mixed>|\WP_Error
 	 */
 	private function request( string $key, string $method, string $path, array $body = array() ) {
@@ -353,18 +362,77 @@ final class DeepL implements Engine {
 		 * @param string $key  The key (never log it).
 		 */
 		$host = (string) apply_filters( 'tranzly_deepl_host', $host, $key );
+		if ( 'POST' !== $method ) {
+			return $this->classify( $this->send( $key, $method, $host . $path, '', '' ), 0 );
+		}
+
+		$form = self::form_encode( $body );
+		if ( '' === $form ) {
+			return Failure::make( Failure::UNKNOWN, $this, 'Tranzly could not encode the request to DeepL' );
+		}
+		$response = $this->send( $key, 'POST', $host . $path, $form, 'application/x-www-form-urlencoded' );
+		if ( ! self::says_body_empty( $response ) ) {
+			return $this->classify( $response, strlen( $form ) );
+		}
+
+		// DeepL says it received no body. Try the other format DeepL accepts, once.
+		$json = wp_json_encode( $body );
+		if ( ! is_string( $json ) || '' === $json ) {
+			return $this->classify( $response, strlen( $form ) );
+		}
+
+		return $this->classify( $this->send( $key, 'POST', $host . $path, $json, 'application/json' ), strlen( $json ) );
+	}
+
+	/**
+	 * Send one request. Redirects are never followed by WordPress: it turns a 301/302/303 POST
+	 * into a GET without the body, which DeepL answers with "A non-empty request body is
+	 * required". A 307/308 to a DeepL host is followed here with the same method and body;
+	 * anything else comes back as the redirect itself.
+	 *
+	 * @param string $key          The API key.
+	 * @param string $method       GET or POST.
+	 * @param string $url          The full URL.
+	 * @param string $body         The encoded body ('' for GET).
+	 * @param string $content_type The body's media type ('' for GET).
+	 * @param int    $hops         Redirects followed so far.
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	private function send( string $key, string $method, string $url, string $body, string $content_type, int $hops = 0 ) {
+		$headers = array( 'Authorization' => 'DeepL-Auth-Key ' . $key );
+		if ( '' !== $content_type ) {
+			$headers['Content-Type'] = $content_type;
+		}
 		$args = array(
-			'method'  => $method,
-			'timeout' => 60,
-			'headers' => array(
-				'Authorization' => 'DeepL-Auth-Key ' . $key,
-				'Content-Type'  => 'application/json',
-			),
+			'method'      => $method,
+			'timeout'     => 60,
+			'redirection' => 0,
+			'headers'     => $headers,
 		);
 		if ( 'POST' === $method ) {
-			$args['body'] = (string) wp_json_encode( $body );
+			$args['body'] = $body;
 		}
-		$response = wp_remote_request( $host . $path, $args );
+		$response = wp_remote_request( $url, $args );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+		$code     = (int) wp_remote_retrieve_response_code( $response );
+		$location = (string) wp_remote_retrieve_header( $response, 'location' );
+		if ( in_array( $code, array( 307, 308 ), true ) && $hops < 2 && self::is_deepl_url( $location ) ) {
+			return $this->send( $key, $method, $location, $body, $content_type, $hops + 1 );
+		}
+
+		return $response;
+	}
+
+	/**
+	 * A response, as decoded JSON or a classified failure.
+	 *
+	 * @param array<string, mixed>|\WP_Error $response The transport response.
+	 * @param int                            $sent     Bytes of body Tranzly sent (0 for GET).
+	 * @return array<mixed>|\WP_Error
+	 */
+	private function classify( $response, int $sent ) {
 		if ( is_wp_error( $response ) ) {
 			return Failure::make( Failure::UNREACHABLE, $this, $response->get_error_message() );
 		}
@@ -384,6 +452,10 @@ final class DeepL implements Engine {
 				return Failure::make( Failure::RATE_LIMITED, $this, $detail );
 			case 413 === $code:
 				return Failure::make( Failure::TOO_LONG, $this, $detail );
+			case $code >= 300 && $code < 400:
+				return Failure::make( Failure::UNKNOWN, $this, 'HTTP ' . $code . ': DeepL redirected the request to ' . (string) wp_remote_retrieve_header( $response, 'location' ) . '; Tranzly does not follow it, because WordPress would resend it without the text' );
+			case 400 === $code && self::says_body_empty( $response ):
+				return Failure::make( Failure::UNKNOWN, $this, 'HTTP 400: DeepL received an empty request, although Tranzly sent ' . $sent . ' bytes (as a form and as JSON). Something between WordPress and DeepL removed the text: a plugin changing outgoing requests (the http_api_curl or http_request_args hooks), or a proxy. DeepL said: ' . $detail );
 			case 400 === $code && false !== stripos( $detail, 'lang' ):
 				return Failure::make( Failure::UNSUPPORTED, $this, $detail );
 			case $code >= 500:
@@ -391,5 +463,58 @@ final class DeepL implements Engine {
 			default:
 				return Failure::make( Failure::UNKNOWN, $this, 'HTTP ' . $code . ': ' . $detail );
 		}
+	}
+
+	/**
+	 * Does this response say DeepL received no request body? DeepL's Free host answers an empty
+	 * POST with a validation problem naming "A non-empty request body is required" and
+	 * "requestParameters"; its paid host with "Value for '$' not supported" (both measured
+	 * 2026-10-15).
+	 *
+	 * @param array<string, mixed>|\WP_Error $response The transport response.
+	 * @return bool
+	 */
+	private static function says_body_empty( $response ): bool {
+		if ( is_wp_error( $response ) || 400 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+			return false;
+		}
+		$raw = (string) wp_remote_retrieve_body( $response );
+
+		return false !== stripos( $raw, 'non-empty request body' )
+			|| false !== stripos( $raw, 'requestParameters' )
+			|| false !== stripos( $raw, "Value for '$' not supported" );
+	}
+
+	/**
+	 * Is this an https URL on a DeepL host?
+	 *
+	 * @param string $url A URL.
+	 * @return bool
+	 */
+	private static function is_deepl_url( string $url ): bool {
+		$host = (string) wp_parse_url( $url, PHP_URL_HOST );
+
+		return 'https' === wp_parse_url( $url, PHP_URL_SCHEME ) && ( 'deepl.com' === $host || str_ends_with( $host, '.deepl.com' ) );
+	}
+
+	/**
+	 * Fields as an `application/x-www-form-urlencoded` body. A list value repeats its field
+	 * (`text=a&text=b`), which is how DeepL takes several texts; `http_build_query()` would
+	 * write `text[0]=a` instead, which DeepL does not read.
+	 *
+	 * @param array<string, mixed> $fields Field => value or list of values.
+	 * @return string
+	 */
+	public static function form_encode( array $fields ): string {
+		$pairs = array();
+		foreach ( $fields as $name => $value ) {
+			foreach ( is_array( $value ) ? $value : array( $value ) as $one ) {
+				// Invalid UTF-8 (a truncated character in old content) would make DeepL refuse the whole batch.
+				$text    = function_exists( 'wp_check_invalid_utf8' ) ? wp_check_invalid_utf8( (string) $one, true ) : (string) $one;
+				$pairs[] = rawurlencode( (string) $name ) . '=' . rawurlencode( $text );
+			}
+		}
+
+		return implode( '&', $pairs );
 	}
 }
