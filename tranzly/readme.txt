@@ -7,7 +7,7 @@ Tags: translation, multilingual, language switcher, languages
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 3.27.16
+Stable tag: 3.27.17
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,11 @@ Yes. Tranzly adds the multilingual parts (hreflang, language and direction, per-
 Yes. Tranzly adds WordPress abilities and its own MCP server at `/wp-json/tranzly/v1/mcp` (WordPress 6.9 or later): languages, engines, translating posts, categories, media, menus and site texts, jobs, status, review, SEO addresses and more — everything the Tranzly screens do, with the same permission checks. In Pro, AI agents can also translate the whole site in the background, run the AI quality check, manage the glossary and export files for human translators. Create an application password under Users, Profile, then follow Tranzly, AI agents (MCP). The same actions are available over the REST API at `/wp-json/wp-abilities/v1/abilities`.
 
 == Changelog ==
+
+= 3.27.17 =
+* Filipino pages now load WordPress's and our Filipino translations: the language code fil is looked up as WordPress's tl, while URLs and hreflang keep fil.
+* Plural forms are placed by each language's plural rule (Arabic and others showed the wrong form).
+* Development dependencies updated.
 
 = 3.27.16 =
 * Language packs: our strings are now fetched for every language the site serves (Tranzly, TranslatePress, Polylang or WPML), not only the site's and its users' languages, so translated pages show this plugin's words in that language.

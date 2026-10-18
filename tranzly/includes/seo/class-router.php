@@ -709,7 +709,8 @@ final class Router {
 		$current   = Languages::current();
 		$resolving = false;
 
-		return $current;
+		// ⭐ The locale WordPress loads translations for (`fil` → `tl`, R27); the URL keeps `fil`.
+		return \ZinnDigital\Tranzly\Core\Locales::wp_locale( $current );
 	}
 
 	/**
