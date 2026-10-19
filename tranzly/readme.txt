@@ -7,7 +7,7 @@ Tags: translation, multilingual, language switcher, languages
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 3.27.22
+Stable tag: 3.27.24
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,12 @@ Yes. Tranzly adds the multilingual parts (hreflang, language and direction, per-
 Yes. Tranzly adds WordPress abilities and its own MCP server at `/wp-json/tranzly/v1/mcp` (WordPress 6.9 or later): languages, engines, translating posts, categories, media, menus and site texts, jobs, status, review, SEO addresses and more — everything the Tranzly screens do, with the same permission checks. In Pro, AI agents can also translate the whole site in the background, run the AI quality check, manage the glossary and export files for human translators. Create an application password under Users, Profile, then follow Tranzly, AI agents (MCP). The same actions are available over the REST API at `/wp-json/wp-abilities/v1/abilities`.
 
 == Changelog ==
+
+= 3.27.24 =
+* New (Pro): full GeoDirectory support. A translated listing now carries its address, map location and custom fields (text fields translated, choice fields kept), its categories and tags are translated with it, editing the original updates every language, and trashing, restoring or deleting a listing does the same to its translations. Your own GeoDirectory and UsersWP field names and GetPaid payment method names can be translated in Theme and plugin text. GetPaid invoices are no longer offered for translation.
+
+= 3.27.23 =
+* Fix (Pro): activating Tranzly Pro beside UsersWP no longer stops the site with the error "Undefined constant PLL_COOKIE". Tranzly Pro's Polylang compatibility now also defines PLL_COOKIE and the term and language-switcher functions (pll_get_term_language, pll_get_term_translations, pll_the_languages, pll_is_translated_post_type, pll_is_translated_taxonomy, pll_translate_string). Tested with UsersWP, GeoDirectory and GetPaid in two languages.
 
 = 3.27.22 =
 * WordPress MCP adapter updated to 0.7.1 (MCP protocol 2026-07-28, session-storage security fix); no deprecation notice from the bundled copy.
