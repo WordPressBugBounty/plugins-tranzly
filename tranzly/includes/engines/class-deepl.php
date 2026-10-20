@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * longer sold. A published price, not one measured on an account (§2.45). Free keys estimate at
  * $0. The `tranzly_deepl_price_per_million` filter overrides it.
  */
-final class DeepL implements Engine {
+final class DeepL implements Engine, Billed_Characters {
 
 	/** The secret name. */
 	public const SECRET = 'deepl';
@@ -58,6 +58,13 @@ final class DeepL implements Engine {
 
 	/** DeepL's limit of texts per request. */
 	private const PER_REQUEST = 50;
+
+	/**
+	 * Characters DeepL billed for the last translate() call; null when it did not say.
+	 *
+	 * @var int|null
+	 */
+	private ?int $billed = null;
 
 	/**
 	 * Engine id.
@@ -96,7 +103,8 @@ final class DeepL implements Engine {
 	 * @return array<string, string>|\WP_Error
 	 */
 	public function translate( array $texts, string $source, string $target, array $options = array() ) {
-		$key = Secrets::get( self::SECRET );
+		$this->billed = null;
+		$key          = Secrets::get( self::SECRET );
 		if ( null === $key ) {
 			return Failure::make( Failure::CREDENTIAL, $this, 'no key saved', admin_url( 'admin.php?page=tranzly#/engines' ) );
 		}
@@ -109,8 +117,10 @@ final class DeepL implements Engine {
 		$html = 'html' === ( $options['format'] ?? 'text' );
 		$dnt  = array_values( array_filter( array_map( 'strval', (array) ( $options['do_not_translate'] ?? array() ) ) ) );
 		$body = array(
-			'source_lang' => $source_code,
-			'target_lang' => $target_code,
+			'source_lang'            => $source_code,
+			'target_lang'            => $target_code,
+			// DeepL then reports, per text, the characters it billed (shown after the translation).
+			'show_billed_characters' => true,
 		);
 		if ( $html || array() !== $dnt ) {
 			$body['tag_handling'] = $html ? 'html' : 'xml';
@@ -130,8 +140,10 @@ final class DeepL implements Engine {
 			}
 		}
 
-		$keys = array_keys( $texts );
-		$out  = array();
+		$keys   = array_keys( $texts );
+		$out    = array();
+		$billed = 0;
+		$told   = false;
 		foreach ( array_chunk( $keys, self::PER_REQUEST ) as $chunk ) {
 			$payload = array();
 			foreach ( $chunk as $k ) {
@@ -148,9 +160,44 @@ final class DeepL implements Engine {
 			foreach ( $chunk as $i => $k ) {
 				$out[ $k ] = $this->unprotect( (string) ( $translations[ $i ]['text'] ?? '' ), $dnt, $html );
 			}
+			$one = self::billed_in( $translations );
+			if ( null !== $one ) {
+				$billed += $one;
+				$told    = true;
+			}
 		}
+		$this->billed = $told ? $billed : null;
 
 		return $out;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @return int|null
+	 */
+	public function billed_characters(): ?int {
+		return $this->billed;
+	}
+
+	/**
+	 * The characters DeepL billed for one response's translations (`billed_characters` on each,
+	 * sent when the request asked `show_billed_characters`), or null when none carries it.
+	 *
+	 * @param array<int, mixed> $translations The response's `translations`.
+	 * @return int|null
+	 */
+	public static function billed_in( array $translations ): ?int {
+		$sum  = 0;
+		$told = false;
+		foreach ( $translations as $one ) {
+			if ( is_array( $one ) && isset( $one['billed_characters'] ) && is_numeric( $one['billed_characters'] ) && (int) $one['billed_characters'] >= 0 ) {
+				$sum += (int) $one['billed_characters'];
+				$told = true;
+			}
+		}
+
+		return $told ? $sum : null;
 	}
 
 	/**

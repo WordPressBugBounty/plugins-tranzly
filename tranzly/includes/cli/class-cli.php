@@ -273,6 +273,7 @@ final class Cli {
 		$done    = 0;
 		$skipped = 0;
 		$failed  = 0;
+		$billed  = array(); // engine label => characters the provider billed.
 		foreach ( $batches as $batch ) {
 			foreach ( $batch as $id ) {
 				foreach ( $langs as $lang ) {
@@ -298,11 +299,18 @@ final class Cli {
 						continue;
 					}
 					++$done;
-					\WP_CLI::log( sprintf( '#%d %s -> #%d', $id, $lang, $result ) );
+					$cost = Translator::last_billed();
+					if ( null !== $cost ) {
+						$billed[ $cost['engine'] ] = ( $billed[ $cost['engine'] ] ?? 0 ) + $cost['characters'];
+					}
+					\WP_CLI::log( sprintf( '#%d %s -> #%d', $id, $lang, $result ) . ( null === $cost ? '' : sprintf( ' (%s billed %d characters)', $cost['engine'], $cost['characters'] ) ) );
 				}
 			}
 		}
 		$line = sprintf( 'translated %d, skipped %d (protected or already that language), failed %d.', $done, $skipped, $failed );
+		foreach ( $billed as $label => $characters ) {
+			$line .= sprintf( ' %s billed %d characters.', $label, $characters );
+		}
 		if ( $failed > 0 ) {
 			\WP_CLI::error( $line );
 		}

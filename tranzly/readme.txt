@@ -7,7 +7,7 @@ Tags: translation, multilingual, language switcher, languages
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 3.27.25
+Stable tag: 3.27.26
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,11 @@ Yes. Tranzly adds the multilingual parts (hreflang, language and direction, per-
 Yes. Tranzly adds WordPress abilities and its own MCP server at `/wp-json/tranzly/v1/mcp` (WordPress 6.9 or later): languages, engines, translating posts, categories, media, menus and site texts, jobs, status, review, SEO addresses and more — everything the Tranzly screens do, with the same permission checks. In Pro, AI agents can also translate the whole site in the background, run the AI quality check, manage the glossary and export files for human translators. Create an application password under Users, Profile, then follow Tranzly, AI agents (MCP). The same actions are available over the REST API at `/wp-json/wp-abilities/v1/abilities`.
 
 == Changelog ==
+
+= 3.27.26 =
+* New: after a machine translation with DeepL, Tranzly shows how many characters DeepL billed for it — in the editor's Translations panel, the classic Translations box, the REST answer and WP-CLI — as DeepL counted them on your own account.
+* New: flags in every language switcher can be a rectangle, rounded rectangle, square or circle, and small, medium or large. Set it once under Tranzly → Language switchers → Flags, or per block, widget, shortcode (`flag_shape`, `flag_size`), Page Builder Sandwich element, or (Pro) Elementor and Bricks widget.
+* New: the posts list shows a view per language with its count, beside All, Published and Drafts, and a "Not translated into …" filter lists the posts that still need a translation into a language.
 
 = 3.27.25 =
 * New: a Zinn® Ads card among the Zinn® services on this plugin's own screens — Google Ads management that asks before it spends, with a click-fraud shield free on Zinn® hosting. It links to the page in your language and is never shown on a footprint-free site.
