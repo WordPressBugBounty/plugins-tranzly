@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Promotions {
 
 	/** The kinds of card the copy table knows. */
-	public const KINDS = array( 'hosting', 'marketplace', 'platform', 'plugin', 'bundle' );
+	public const KINDS = array( 'hosting', 'marketplace', 'platform', 'plugin', 'bundle', 'ads' );
 
 	/**
 	 * Every card, resolved for the current site and host, including dismissed ones (the shell
@@ -45,7 +45,7 @@ final class Promotions {
 
 		/**
 		 * Filters the promotion registry before it is resolved. Add a row to promote another
-		 * product: `id`, `kind` (hosting|marketplace|platform|plugin|bundle), `slot`
+		 * product: `id`, `kind` (hosting|marketplace|platform|plugin|bundle|ads), `slot`
 		 * (promo|cross-sell), and `url` or (for a plugin) `name`, `site`, `main_files`.
 		 *
 		 * @param array<int, array<string, mixed>> $rows Registry rows.
@@ -84,6 +84,14 @@ final class Promotions {
 
 		if ( 'plugin' === $kind ) {
 			return self::plugin_card( $card, $row );
+		}
+		if ( 'ads' === $kind ) {
+			// ⛔⛔ Never on a Footprint-Free (PBN) site (za-35, owner footprint rule).
+			if ( self::footprint_free() ) {
+				return null;
+			}
+			$locale      = function_exists( 'determine_locale' ) ? (string) determine_locale() : 'en_US';
+			$card['url'] = self::safe_url( self::localized_url( $card['url'], (array) ( $row['slugs'] ?? array() ), $locale ) );
 		}
 		if ( 'bundle' === $kind ) {
 			$offer = self::bundle_offer();
@@ -211,6 +219,15 @@ final class Promotions {
 					'activeTitle' => '',
 					'activeBody'  => '',
 				);
+			case 'ads':
+				return array(
+					'brand'       => $brand,
+					'title'       => __( 'Google Ads management that asks before it spends', 'tranzly' ),
+					'body'        => __( 'Zinn® Ads audits your Google Ads account every day and fixes wasted spend, every change approved by you first. Its click-fraud shield is free with Zinn® hosting.', 'tranzly' ),
+					'cta'         => __( 'See Zinn® Ads', 'tranzly' ),
+					'activeTitle' => '',
+					'activeBody'  => '',
+				);
 			case 'bundle':
 				$offer = self::bundle_offer();
 				return array(
@@ -304,6 +321,50 @@ final class Promotions {
 
 		/* translators: %s: the other plugin's name. */
 		return sprintf( __( '%s is active on this site, so both plugins share one set of AI provider keys and one settings screen for them.', 'tranzly' ), $brand );
+	}
+
+	/**
+	 * Is this a Footprint-Free (PBN) site, where the Zinn® Ads card must never show?
+	 *
+	 * ⛔ Two signals, either is enough: `ZINN_FOOTPRINT_FREE`, which our hosting writes into
+	 * `wp-config.php` for a site on the Footprint-Free line, and the `<prefix>_kit_footprint_free`
+	 * filter, which a host plugin answers from its own no-trace mode (Zinn® SEO does).
+	 *
+	 * @return bool
+	 */
+	public static function footprint_free(): bool {
+		$constant = defined( 'ZINN_FOOTPRINT_FREE' ) && (bool) constant( 'ZINN_FOOTPRINT_FREE' );
+
+		/**
+		 * Filters whether this site is footprint-free, so Zinn® Ads is never promoted on it.
+		 *
+		 * @param bool $footprint_free Whether `ZINN_FOOTPRINT_FREE` says so.
+		 */
+		return (bool) apply_filters( 'tranzly_kit_footprint_free', $constant );
+	}
+
+	/**
+	 * A page's address in the administrator's language: its translated slug under the locale
+	 * prefix, or the English page when the locale has no slug. Pure.
+	 *
+	 * ⭐ The slugs are the public site's own (`content/site/slugs.i18n.json`, pinned by
+	 * AdminKitPromotionsTest), so the link lands on the translated page with no redirect.
+	 *
+	 * @param string                $url    The English page, `https://host/slug`.
+	 * @param array<string, string> $slugs  Translated slug by public-site locale (`pl`, `pt-BR`).
+	 * @param string                $locale The WordPress locale (`pl_PL`, `pt_BR`, `en_US`).
+	 * @return string
+	 */
+	public static function localized_url( string $url, array $slugs, string $locale ): string {
+		$exact = str_replace( '_', '-', $locale );
+		$base  = strtolower( (string) strtok( $exact, '-' ) );
+		$key   = isset( $slugs[ $exact ] ) ? $exact : ( isset( $slugs[ $base ] ) ? $base : '' );
+		$slug  = '' === $key ? '' : trim( (string) $slugs[ $key ] );
+		if ( '' === $slug || ! preg_match( '#^(https://[^/]+)/#', $url, $origin ) ) {
+			return $url;
+		}
+
+		return $origin[1] . '/' . rawurlencode( $key ) . '/' . rawurlencode( $slug );
 	}
 
 	/**
