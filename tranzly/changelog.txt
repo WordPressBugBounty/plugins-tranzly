@@ -4,6 +4,15 @@ Every release of Tranzly™, newest first. readme.txt lists the latest 10.
 
 == Changelog ==
 
+= 3.27.44 =
+* Fix: after updating Tranzly, pages now pick up the new release's link fixes on their next view. Before, a page kept the links it had worked out under the old release until a post was saved (3.27.41's account-menu fix stayed hidden on updated sites).
+
+= 3.27.43 =
+* Dependency security update (Renovate).
+
+= 3.27.42 =
+* The language switcher Tranzly adds before or after your content now follows the Display setting (name, code, or name and code), as the floating switcher already did.
+
 = 3.27.41 =
 * Shop account menu: on a translated account page (for example /ar/my-account/) the tab links (orders, downloads, addresses, account details, log out and tabs added by other plugins) now stay in that language instead of opening the original-language page.
 
