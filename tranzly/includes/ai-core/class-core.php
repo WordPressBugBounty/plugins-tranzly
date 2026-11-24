@@ -81,17 +81,7 @@ final class Core {
 	 * @return void
 	 */
 	public static function boot( array $host ): void {
-		$pro        = isset( $host['pro'] ) && is_callable( $host['pro'] ) && (bool) ( $host['pro'] )();
-		$pro_entry  = __DIR__ . '/pro_' . '_premium_only/class-pro-policy.php'; // phpcs:ignore Generic.Strings.UnnecessaryStringConcat.Found -- the premium-only token must not appear in a free file.
 		$pro_loaded = false;
-		if ( $pro && is_readable( $pro_entry ) ) {
-			require_once $pro_entry;
-			$class = __NAMESPACE__ . '\\Pro\\Pro_Policy';
-			if ( class_exists( $class ) ) {
-				self::$policy = new $class();
-				$pro_loaded   = true;
-			}
-		}
 		self::$host = array(
 			'slug'     => (string) $host['slug'],
 			'name'     => (string) $host['name'],
@@ -132,6 +122,8 @@ final class Core {
 
 		// A catalogue that arrived with a plugin update moves saved choices too (once per catalogue).
 		Catalogue::migrate();
+		// A key sealed by an older core moves to the random key here, never on a (public) read.
+		Store::reseal_legacy();
 		$wants = Catalogue::fetches();
 		$next  = wp_next_scheduled( self::CRON );
 		if ( $wants && false === $next ) {
@@ -359,7 +351,7 @@ final class Core {
 			delete_transient( Models::transient( $provider ) );
 		}
 		wp_clear_scheduled_hook( self::CRON );
-		delete_option( Store::OPTION );
+		delete_option( Store::option() );
 		// The Pro usage log, if a Pro copy ever created it. Dropped here too so that a site which
 		// ends on the free edition still leaves nothing behind.
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'zinn_ai_usage' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared -- a fixed table name on uninstall.

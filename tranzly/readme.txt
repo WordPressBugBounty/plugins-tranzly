@@ -7,7 +7,7 @@ Tags: translation, multilingual, language switcher, languages
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 3.27.57
+Stable tag: 3.27.61
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,9 +62,9 @@ The admin screens stay clearly branded; only what your visitors see is neutral.
 
 == External services ==
 
-= AI apps you connect (MCP sign-in) =
+= AI apps you connect (MCP) =
 
-Only when an AI app such as Claude or ChatGPT starts connecting to the site's MCP server does the site fetch that app's public OAuth client metadata from the address the app gives, for example `https://claude.ai/oauth/mcp-oauth-client-metadata` or `https://chatgpt.com/oauth/client.json`. No site content is sent. Anthropic's and OpenAI's terms and privacy policies are listed under AI features below.
+An AI app such as Claude or ChatGPT connects to the site's MCP server with a WordPress Application Password that you create in your profile and paste into the app; the app then sends its requests to this site. The site makes no request to the app and sends it nothing on its own.
 
 = Zinn Digital® hosting-customer discount (only on sites Zinn Digital® hosts) =
 
@@ -102,7 +102,7 @@ AI features use the AI provider you choose, with your own API key. Nothing is se
 * OpenRouter: https://openrouter.ai/api/v1 (terms: https://openrouter.ai/terms, privacy policy: https://openrouter.ai/privacy)
 * A service you run yourself (any OpenAI-compatible address you enter): only that address is contacted.
 
-Recommended models list (off until ticked). The daily check under Settings → AI providers requests the signed list from https://api.zinndigital.com/v1/ai-model-catalogue, sending no key, site address or content. Connecting to Zinn® credits does not turn it on (in Pro it does).
+Recommended models list (off until ticked). The daily check under Settings → AI providers requests the signed list from https://api.zinndigital.com/v1/ai-model-catalogue, sending no key, site address or content. Connecting to Zinn® credits does not turn it on.
 
 * Service: https://zinndigital.com
 * Terms: https://zinndigital.com/legal/terms
@@ -161,6 +161,19 @@ Yes. Tranzly adds WordPress abilities and its own MCP server at `/wp-json/tranzl
 
 == Changelog ==
 
+= 3.27.61 =
+* WordPress.org review fixes: nothing is written into or removed from the must-use, plugins or themes folders by free code without your action, add-ons hook in through actions, and translated text is filtered for every role.
+
+= 3.27.60 =
+* An AI provider key saved by an older version is re-sealed from the admin screens only, never during a visitor's request; small admin screen fixes.
+
+= 3.27.59 =
+* Dependency security update (Renovate).
+
+= 3.27.58 =
+* WordPress.org review fixes and a shared admin kit update (diagnostics and promotions panels).
+* Shared AI and MCP code update: stored AI keys are sealed with a random key for each site, a private AI address needs an explicit setting in wp-config.php, and the WordPress.org version no longer carries the MCP sign-in.
+
 = 3.27.57 =
 * Maintenance release.
 
@@ -178,17 +191,5 @@ Yes. Tranzly adds WordPress abilities and its own MCP server at `/wp-json/tranzl
 
 = 3.27.52 =
 * Dependency security update (Renovate).
-
-= 3.27.51 =
-* Dependency security update (Renovate).
-
-= 3.27.50 =
-* Dependency security update (Renovate).
-
-= 3.27.49 =
-* Dependency security update (Renovate).
-
-= 3.27.48 =
-* Ships package.json and package-lock.json beside the JavaScript sources, so npm ci && npm run build rebuilds the shipped build/ from the plugin folder; the readme links the public source repository.
 
 The full history of every release is in changelog.txt, in the plugin's folder.

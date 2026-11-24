@@ -223,13 +223,6 @@ final class Licence {
 	public static function tier(): string {
 		$tier = self::tier_from( Kit::fs() );
 
-		/**
-		 * Filters the plan tier the kit reports for this plugin (tests and staging; the licence
-		 * decides in production).
-		 *
-		 * @param string $tier `free`, `personal`, `business` or `agency`.
-		 */
-		$tier = (string) apply_filters( 'tranzly_kit_tier', $tier );
 
 		return isset( self::RANK[ $tier ] ) ? $tier : 'free';
 	}
@@ -292,32 +285,6 @@ final class Licence {
 		return $unlimited || ! isset( $licence->quota ) ? null : (int) $licence->quota;
 	}
 
-	/**
-	 * May this site use a feature?
-	 *
-	 * @param string $feature A feature id from docs/plugins-overhaul/features.json (`pbs-g3`).
-	 * @return bool False for an id the matrix does not know: an unknown feature is never
-	 *              "free by default".
-	 */
-	public static function can( string $feature ): bool {
-		return self::tier_can( self::tier(), $feature );
-	}
-
-	/**
-	 * Does a tier include a feature?
-	 *
-	 * @param string $tier    Plan tier.
-	 * @param string $feature Feature id.
-	 * @return bool
-	 */
-	public static function tier_can( string $tier, string $feature ): bool {
-		$min = Matrix::min_plan( $feature );
-		if ( null === $min || ! isset( self::RANK[ $tier ], self::RANK[ $min ] ) ) {
-			return false;
-		}
-
-		return self::RANK[ $tier ] >= self::RANK[ $min ];
-	}
 
 	/**
 	 * What the shell shows about the licence. No key, no secret: this is printed into the page.
@@ -345,10 +312,9 @@ final class Licence {
 			),
 			'localhost'     => self::is_local_site(),
 			'freeLocalhost' => true,
-			'priority'      => self::tier_can( $tier, 'sh-r5' ),
-			'whiteLabel'    => self::tier_can( $tier, 'pbs-g3' ),
+			'priority'      => false,
+			'whiteLabel'    => false,
 			'upgradeUrl'    => '',
-			'trialUrl'      => '',
 			'pricingUrl'    => '',
 			'accountUrl'    => '',
 			'renewal'       => null,
@@ -383,15 +349,13 @@ final class Licence {
 		}
 
 		$out['trial']['active']    = self::call( $fs, 'is_trial' );
-		$out['trial']['used']      = self::call( $fs, 'is_trial_utilized' );
-		$out['trial']['available'] = self::call( $fs, 'has_trial_plan' ) && ! $out['trial']['used'] && ! $out['trial']['active'] && ! self::call( $fs, 'is_paying' );
+		// No in-plugin trial in the WordPress.org package (review, 23 Nov): only the self-hosted build offers it.
 		if ( $out['trial']['active'] && is_object( $site ) && ! empty( $site->trial_ends ) ) {
 			$out['trial']['endsAt'] = (string) $site->trial_ends;
 		}
 
 		if ( ! $out['premium'] ) {
 			$out['upgradeUrl'] = self::url( $fs, 'get_upgrade_url' );
-			$out['trialUrl']   = $out['trial']['available'] ? self::url( $fs, 'get_trial_url' ) : '';
 		}
 		$out['pricingUrl'] = self::url( $fs, 'pricing_url' );
 		if ( $out['registered'] ) {
@@ -401,44 +365,6 @@ final class Licence {
 		return $out;
 	}
 
-	/**
-	 * Start the no-card trial (feature adm-7). The SDK can start it in place only for an
-	 * installation that is connected to the licensing service; otherwise the caller sends the
-	 * user to the trial URL, where they connect and start it in one step.
-	 *
-	 * @return array{started: bool, url: string, message: string}
-	 */
-	public static function start_trial(): array {
-		$fs = Kit::fs();
-		if ( null === $fs ) {
-			return array(
-				'started' => false,
-				'url'     => '',
-				'message' => __( 'The licensing service is not available on this site.', 'tranzly' ),
-			);
-		}
-		if ( ! self::call( $fs, 'is_registered' ) || ! method_exists( $fs, 'start_trial' ) ) {
-			return array(
-				'started' => false,
-				'url'     => self::url( $fs, 'get_trial_url' ),
-				'message' => '',
-			);
-		}
-		$result = $fs->start_trial();
-		if ( true === $result ) {
-			return array(
-				'started' => true,
-				'url'     => '',
-				'message' => '',
-			);
-		}
-
-		return array(
-			'started' => false,
-			'url'     => self::url( $fs, 'get_trial_url' ),
-			'message' => is_string( $result ) && '' !== $result ? wp_strip_all_tags( $result ) : __( 'The trial could not be started here. Continue on the trial page instead.', 'tranzly' ),
-		);
-	}
 
 	/**
 	 * Is this site a staging, local or development copy (feature sh-r1)?

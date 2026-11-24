@@ -22,7 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * ⛔⛔ ONE OPTION FOR EVERY PLUGIN THAT CARRIES THIS CORE, AND ITS NAME NEVER CHANGES. That is
  * the whole of feature ai-10 ("one key, both plugins"): Tranzly and Page Builder Sandwich each
  * ship their own prefixed copy of this code, possibly at different versions, and they agree by
- * reading and writing the same record.
+ * reading and writing the same record. The wordpress.org build is the one exception: there
+ * each plugin stands alone, so `option()` names this host's own prefixed record instead.
  *
  * ⛔⛔ AND EVERY WRITE MERGES — IT NEVER REPLACES THE RECORD WITH WHAT THIS COPY KNOWS ABOUT.
  * An older copy saving a key must not erase a field a newer copy added. `update()` hands the
@@ -32,8 +33,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 final class Store {
 
-	/** The option. Shared by every copy; see the class comment before changing it. */
-	public const OPTION = 'zinn_ai_core';
+	/** This host's own option, read by the wordpress.org build (the render writes the host prefix). */
+	public const HOST_OPTION = 'tranzly_ai_core';
+
 
 	/** The record layout this version writes. */
 	public const SCHEMA = 1;
@@ -42,12 +44,24 @@ final class Store {
 	public const TASKS = array( 'general', 'write', 'translate', 'code' );
 
 	/**
+	 * The option that holds the record: the shared one in a self-hosted build, this host's own
+	 * in the wordpress.org build.
+	 *
+	 * @return string
+	 */
+	public static function option(): string {
+		$option = self::HOST_OPTION;
+
+		return $option;
+	}
+
+	/**
 	 * The stored record.
 	 *
 	 * @return array<string, mixed>
 	 */
 	public static function get(): array {
-		$value = get_option( self::OPTION, array() );
+		$value = get_option( self::option(), array() );
 
 		return is_array( $value ) ? $value : array();
 	}
@@ -64,7 +78,7 @@ final class Store {
 		// Never lower the recorded schema: a newer copy's marker stays when an older one writes.
 		$after['schema'] = max( (int) ( $before['schema'] ?? 0 ), self::SCHEMA );
 		if ( $after !== $before ) {
-			update_option( self::OPTION, $after, false );
+			update_option( self::option(), $after, false );
 		}
 	}
 
@@ -136,15 +150,39 @@ final class Store {
 	 */
 	public static function key( string $provider ): ?string {
 		$sealed = self::provider( $provider )['key'] ?? null;
+		if ( ! is_string( $sealed ) ) {
+			return null;
+		}
 
-		return is_string( $sealed ) ? Crypto::open( $sealed ) : null;
+		// Read only: a public route (zinn-chat /kb/search) reads a key, and a read never writes.
+		// A legacy-sealed key is moved to the random key by reseal_legacy() on admin_init.
+		return Crypto::open( $sealed );
+	}
+
+	/**
+	 * Seal again, with the site's random key, every provider key an older core sealed with the
+	 * salt-derived key. Run from Core::maintain() (admin_init), never from a read.
+	 *
+	 * @return void
+	 */
+	public static function reseal_legacy(): void {
+		foreach ( array_keys( (array) ( self::get()['providers'] ?? array() ) ) as $provider ) {
+			$sealed = self::provider( (string) $provider )['key'] ?? null;
+			if ( ! is_string( $sealed ) || ! Crypto::is_legacy( $sealed ) ) {
+				continue;
+			}
+			$plain = Crypto::open( $sealed );
+			if ( null !== $plain ) {
+				self::set_provider( (string) $provider, array( 'key' => Crypto::seal( $plain ) ) );
+			}
+		}
 	}
 
 	/**
 	 * What state is a provider's key in?
 	 *
 	 * @param string $provider Provider id.
-	 * @return string `none`, `ok`, `newer` (written by a newer plugin version) or `unreadable` (the site's salts changed).
+	 * @return string `none`, `ok`, `newer` (written by a newer plugin version) or `unreadable` (the encryption key was lost or the value is damaged).
 	 */
 	public static function key_state( string $provider ): string {
 		$sealed = self::provider( $provider )['key'] ?? null;

@@ -25,5 +25,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once __DIR__ . '/class-adapter.php';
 require_once __DIR__ . '/class-ability.php';
 require_once __DIR__ . '/class-rest-bridge.php';
-require_once __DIR__ . '/class-oauth.php';
 require_once __DIR__ . '/class-server.php';

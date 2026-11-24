@@ -67,13 +67,8 @@ export function badgeText( licence ) {
 	const name = licence.legacy
 		? __( 'Pro', 'tranzly' )
 		: planName( licence.plan );
-	return licence.trial && licence.trial.active
-		? sprintf(
-				/* translators: %s: plan name. */
-				__( '%s trial', 'tranzly' ),
-				name
-			)
-		: name;
+	let text = name;
+	return text;
 }
 
 /**

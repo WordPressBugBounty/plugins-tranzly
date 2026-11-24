@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * `<host namespace>/kit/*`: preferences, the wizard, the trial, and the support screens.
+ * `<host namespace>/kit/*`: preferences, the wizard, the plans and the support screens.
  *
  * Every route needs `manage_options` and the REST nonce the shell sends (cookie authentication).
  * The support routes call the Zinn Digital API from the SERVER (contract §3); the browser never
@@ -84,15 +84,6 @@ final class Rest {
 						'required' => true,
 					),
 				),
-			)
-		);
-		register_rest_route(
-			$ns,
-			'/kit/trial',
-			array(
-				'methods'             => \WP_REST_Server::CREATABLE,
-				'callback'            => static fn(): \WP_REST_Response => new \WP_REST_Response( Licence::start_trial() ),
-				'permission_callback' => array( self::class, 'can_manage' ),
 			)
 		);
 		register_rest_route(

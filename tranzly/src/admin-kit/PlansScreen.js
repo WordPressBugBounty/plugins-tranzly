@@ -1,6 +1,5 @@
 /* Generated from wp/packages/zinn-admin-kit/src/js/PlansScreen.js by wp/bin/build-admin-kit.php. Edit the package, never this copy. */
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
 import {
 	Button,
 	Card,
@@ -10,13 +9,12 @@ import {
 	Notice,
 } from '@wordpress/components';
 
-import { kitFetch, errorMessage } from './api';
 import { badgeText, includes, planName, planSites } from './plans';
 import DataList from './DataList';
 
 /**
  * Plans and licence (features adm-6, adm-7, adm-8, sh-r1, sh-r7): what this site runs, the
- * no-card trial, the upgrade and renewal offers, and the plan comparison — generated from the one
+ * upgrade and renewal offers, and the plan comparison — generated from the one
  * plan -> feature matrix (`class-matrix.php`), so a screen can never promise a tier the code does
  * not grant.
  *
@@ -26,43 +24,10 @@ import DataList from './DataList';
  */
 export default function Plans( { kit } ) {
 	const licence = kit.licence || {};
-	const [ notice, setNotice ] = useState( null );
-	const [ busy, setBusy ] = useState( false );
 	const paid = ( kit.plans || [] ).filter( ( p ) => 'free' !== p.id );
 
-	const startTrial = () => {
-		setBusy( true );
-		setNotice( null );
-		kitFetch( kit, 'trial', { method: 'POST' } )
-			.then( ( result ) => {
-				if ( result.url ) {
-					window.location.assign( result.url );
-					return;
-				}
-				setNotice( {
-					status: result.started ? 'success' : 'warning',
-					message: result.started
-						? __(
-								'Your trial has started. Reload the page to see every Pro feature.',
-								'tranzly'
-							)
-						: result.message,
-				} );
-			} )
-			.catch( ( error ) =>
-				setNotice( {
-					status: 'error',
-					message: errorMessage(
-						error,
-						__(
-							'The trial could not be started.',
-							'tranzly'
-						)
-					),
-				} )
-			)
-			.finally( () => setBusy( false ) );
-	};
+	// A property, not a `let`: the dotorg build strips the region that sets it (no-useless-assignment).
+	const extra = { notice: null, action: null };
 
 	const fields = [
 		{
@@ -97,14 +62,7 @@ export default function Plans( { kit } ) {
 
 	return (
 		<div className="zak-stack">
-			{ notice && (
-				<Notice
-					status={ notice.status }
-					onRemove={ () => setNotice( null ) }
-				>
-					{ notice.message }
-				</Notice>
-			) }
+			{ extra.notice }
 			<Card className="zak-card" data-zak-tour="licence">
 				<CardHeader>
 					<h2 className="zak-card__title">
@@ -200,34 +158,13 @@ export default function Plans( { kit } ) {
 							) ) }
 						</ul>
 						<p className="zak-actions">
-							{ licence.trial && licence.trial.available && (
-								<Button
-									variant="primary"
-									isBusy={ busy }
-									disabled={ busy }
-									onClick={ startTrial }
-								>
-									{ sprintf(
-										/* translators: %d: number of days. */
-										_n(
-											'Start a free %d-day trial, no card needed',
-											'Start a free %d-day trial, no card needed',
-											licence.trial.days,
-											'tranzly'
-										),
-										licence.trial.days
-									) }
-								</Button>
-							) }
+							{ extra.action }
 							{ licence.upgradeUrl && (
 								<Button
 									variant="secondary"
 									href={ licence.upgradeUrl }
 								>
-									{ __(
-										'See plans and prices',
-										'tranzly'
-									) }
+									{ __( 'Compare plans', 'tranzly' ) }
 								</Button>
 							) }
 						</p>

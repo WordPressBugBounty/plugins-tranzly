@@ -33,6 +33,9 @@ export default function kitTours() {
 		),
 	};
 
+	// A property, not a `let`: the dotorg build strips the region that sets `pro` (no-useless-assignment).
+	const offers = { free: __( 'Plans and upgrades', 'tranzly' ), pro: '' };
+	const offersTitle = offers.pro || offers.free;
 	return {
 		overview: [
 			{
@@ -65,9 +68,9 @@ export default function kitTours() {
 			},
 			{
 				target: '[data-zak-tour="offers"]',
-				title: __( 'Try Pro or upgrade', 'tranzly' ),
+				title: offersTitle,
 				content: __(
-					'Start a free trial without a card, upgrade, or renew, all from here.',
+					'Compare plans, upgrade or renew, all from here.',
 					'tranzly'
 				),
 			},
