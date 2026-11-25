@@ -303,13 +303,6 @@ final class Licence {
 			'sites'         => null,
 			'activated'     => null,
 			'unlimited'     => false,
-			'trial'         => array(
-				'active'    => false,
-				'available' => false,
-				'used'      => false,
-				'endsAt'    => '',
-				'days'      => (int) ( Data::get( 'plans' )['trial_days'] ?? 14 ),
-			),
 			'localhost'     => self::is_local_site(),
 			'freeLocalhost' => true,
 			'priority'      => false,
@@ -348,11 +341,8 @@ final class Licence {
 			$out['installId'] = (string) $site->id;
 		}
 
-		$out['trial']['active']    = self::call( $fs, 'is_trial' );
-		// No in-plugin trial in the WordPress.org package (review, 23 Nov): only the self-hosted build offers it.
-		if ( $out['trial']['active'] && is_object( $site ) && ! empty( $site->trial_ends ) ) {
-			$out['trial']['endsAt'] = (string) $site->trial_ends;
-		}
+		// No in-plugin trial in the WordPress.org package (review, 23 Nov): only the self-hosted
+		// build offers it, so the whole trial status block is left out there.
 
 		if ( ! $out['premium'] ) {
 			$out['upgradeUrl'] = self::url( $fs, 'get_upgrade_url' );
